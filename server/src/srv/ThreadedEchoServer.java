@@ -6,7 +6,7 @@ import java.net.Socket;
 
 public class ThreadedEchoServer {
 
-    static final int PORT = 1979;
+    static final int PORT = 1980;
 
     public static void main(String args[]) {
         ServerSocket serverSocket = null;

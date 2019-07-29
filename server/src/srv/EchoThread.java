@@ -29,13 +29,7 @@ public class EchoThread extends Thread {
         while (true) {
             try {
                 line = brinp.readLine();
-                if ((line == null) || line.equalsIgnoreCase("QUIT")) {
-                    socket.close();
-                    return;
-                } else {
-                    out.writeBytes(line + "\n\r");
-                    out.flush();
-                }
+                System.out.println(line);
             } catch (IOException e) {
                 e.printStackTrace();
                 return;
