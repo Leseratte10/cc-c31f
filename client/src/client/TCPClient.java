@@ -1,4 +1,6 @@
 package client;
+\\Zusatz
+
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -17,6 +19,6 @@ public class TCPClient {
 	  outToServer.writeBytes(sentence + '\n');
 	  modifiedSentence = inFromServer.readLine();
 	  System.out.println("FROM SERVER: " + modifiedSentence);
-	  clientSocket.close();
+	  clientSocket.close(); //nöööööö
 	 }
 	}
