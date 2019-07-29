@@ -1,6 +1,0 @@
-Hier steht nichts!
-<<<<<<< HEAD
-aber doch das tut es
-=======
-Nein
->>>>>>> c1440624f783f3fd7042145f771f73aa543bb664
