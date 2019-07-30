@@ -6,9 +6,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class EchoThread extends Thread {
     protected Socket socket;
+    private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
     public EchoThread(Socket clientSocket) {
         this.socket = clientSocket;
@@ -29,7 +32,10 @@ public class EchoThread extends Thread {
         String line;
         while (true) {
             try {
+                
                 line = brinp.readLine();
+                LocalDateTime now = LocalDateTime.now();
+                System.out.print(dtf.format(now));
                 System.out.println(line);
             } catch (IOException e) {
                 e.printStackTrace();
