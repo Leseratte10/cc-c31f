@@ -15,13 +15,15 @@ public class TCPClient {
 		  Socket clientSocket = new Socket("172.24.0.42", 1988);
 		  DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
 		  
-		  new ThreadSend(clientSocket).start();
-		  new ThreadReceive(clientSocket).start();
-		  
 		  String Benutzername;  
 		  System.out.print("Benutzername eingeben");
 		  Benutzername = inFromUser.readLine();
 		  outToServer.writeBytes(Benutzername + '\n');
+		  
+		  new ThreadSend(clientSocket).start();
+		  new ThreadReceive(clientSocket).start();
+		  
+		  
 
 	 }
 }

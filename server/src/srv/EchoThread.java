@@ -39,12 +39,14 @@ public class EchoThread extends Thread {
                 
                 line = brinp.readLine();
                 LocalDateTime now = LocalDateTime.now();
-                System.out.print(dtf.format(now));
-                System.out.println(line);
                 if (login == false) {
                 	Benutzername = line;
                 	login = true;
-                	System.out.println(dft.format(now)+": Der Benutzer" + Benutzername + "hat sich angemeldet.");
+                	System.out.println("<"+dft.format(now)+"> Der Benutzer " + Benutzername + " hat sich angemeldet.");
+                }
+                else {
+                	System.out.print("<"+dtf.format(now)+"> ");
+                    System.out.println(line);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
