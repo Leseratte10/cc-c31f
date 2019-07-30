@@ -1,7 +1,5 @@
 package client;
 
-
-
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -19,9 +17,9 @@ public class TCPClient {
 		  new ThreadReceive(clientSocket).start();
 		  
 		  String Benutzername;  
-		  System.out.print("Benutzername eingeben");
-		  Benutzername = inFromUser.readLine();
-		  outToServer.writeBytes(Benutzername + '\n');
+		  System.out.print("Dein Benutername ist "+System.getProperty("user.name")+"!");
+		  
+		  outToServer.writeBytes(System.getProperty("user.name") + '\n');
 
 	 }
 }
