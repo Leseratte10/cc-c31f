@@ -45,7 +45,7 @@ public class EchoThread extends Thread {
                 if (login == false) {
                 	Benutzername = line;
                 	login = true;
-                	System.out.println(dft.format(now)+"Der Benutzer" + Benutzername + "hat sich angemeldet.");
+                	System.out.println(dft.format(now)+": Der Benutzer" + Benutzername + "hat sich angemeldet.");
                 }
             } catch (IOException e) {
                 e.printStackTrace();
