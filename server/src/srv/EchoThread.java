@@ -12,6 +12,7 @@ import java.time.format.DateTimeFormatter;
 public class EchoThread extends Thread {
     protected Socket socket;
     private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+    private static final DateTimeFormatter dft = DateTimeFormatter.ofPattern("HH:mm:ss");
 
     public EchoThread(Socket clientSocket) {
         this.socket = clientSocket;
@@ -44,7 +45,7 @@ public class EchoThread extends Thread {
                 if (login == false) {
                 	Benutzername = line;
                 	login = true;
-                	System.out.println("Der Benutzer" + Benutzername + "hat sich angemeldet.");
+                	System.out.println(dft.format(now)+": Der Benutzer" + Benutzername + "hat sich angemeldet.");
                 }
             } catch (IOException e) {
                 e.printStackTrace();
