@@ -16,8 +16,12 @@ public class Message {
 	private String to;
 	private String message;
 	private String time;
+
 	private String separator = "§";
     private static final DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); //Für Zeit
+
+
+
 	
 	public Message(String from, String to, String message, DateFormat sdf) { // sdf = Datum und Zeit
         LocalDateTime now = LocalDateTime.now();
@@ -26,8 +30,6 @@ public class Message {
 		this.to = to;
 		this.message = message;
 		this.time = sdf.format(now);
-		
-
 
 
 	}

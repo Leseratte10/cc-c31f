@@ -18,6 +18,7 @@ public class TCPClient {
 		  BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
 		  Socket clientSocket = new Socket("172.24.0.42", 1988);
 		  DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
+
 	      LocalDateTime now = LocalDateTime.now();
 	        
 		  new ThreadSend(clientSocket).start();
@@ -25,8 +26,10 @@ public class TCPClient {
 		  
 		  String Benutzername;  
 		  System.out.print(sdf.format(now) +"Dein Benutername ist "+System.getProperty("user.name")+"!");
+
 		  
 		  outToServer.writeBytes(System.getProperty("user.name") + '\n');
 
+		  
 	 }
 }
