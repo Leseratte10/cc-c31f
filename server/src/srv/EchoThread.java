@@ -43,10 +43,12 @@ public class EchoThread extends Thread {
                 	Benutzername = line;
                 	login = true;
                 	System.out.println("<"+dft.format(now)+"> Der Benutzer " + Benutzername + " hat sich angemeldet.");
+					ThreadedEchoServer.addUser(Benutzername);
                 }
                 else {
                 	System.out.print("<"+dtf.format(now)+"> ");
                     System.out.println(line);
+
                 }
             } catch (IOException e) {
                 e.printStackTrace();

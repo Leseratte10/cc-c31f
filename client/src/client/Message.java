@@ -5,10 +5,10 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+
 
 public class Message {
 	
@@ -16,15 +16,17 @@ public class Message {
 	private String to;
 	private String message;
 	private String time;
-	private String separator = "�";
+	private String separator = "§";
+    private static final DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); //Für Zeit
 	
-	public Message(String from, String to, String message) {
+	public Message(String from, String to, String message, DateFormat sdf) { // sdf = Datum und Zeit
+        LocalDateTime now = LocalDateTime.now();
+        
 		this.from = from;
 		this.to = to;
 		this.message = message;
-		LocalDateTime time = LocalDateTime.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
-		this.time = time.format(formatter);
+		this.time = sdf.format(now);
+		
 	}
 	
 	public Message(InputStream in) {
