@@ -22,11 +22,27 @@ public class ThreadedEchoServer {
     	sockets.add(socket);
     }
     
+    public static ArrayList<Socket> getSockets(){
+    	return sockets;
+    }
+    
+    public static ArrayList<String> getUser(){
+    	return benutzer;
+    }
+    
+    public static void removeSocket(Socket socket) {
+    	sockets.remove(socket);
+    }
+    
+    public static void removeUser(int ind) {
+    	benutzer.remove(ind);
+    }
+    
     public static void sendToAll(String line) throws IOException {
         DataOutputStream out = null;
     	for (int i=0; i<sockets.size() ; i++ ) {
     		out = new DataOutputStream(sockets.get(i).getOutputStream());
-    		out.writeBytes(line+"\n");
+    		out.writeBytes(line+'\n');
     	}
     }
 

@@ -41,7 +41,6 @@ public class EchoThread extends Thread {
                 
                 line = brinp.readLine();
                 LocalDateTime now = LocalDateTime.now();
-                System.out.println("bis hie komm ich");
                 if (login == false) {
                 	Benutzername = line;
                 	login = true;
@@ -57,7 +56,16 @@ public class EchoThread extends Thread {
                     ThreadedEchoServer.sendToAll(line);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+            	LocalDateTime now = LocalDateTime.now();
+            	int ind = ThreadedEchoServer.getSockets().indexOf(socket);
+            	try {
+            		System.out.println("<"+dtf.format(now)+"> "+ThreadedEchoServer.getUser().get(ind)+" just left");
+					ThreadedEchoServer.sendToAll("<"+dft.format(now)+"> "+ThreadedEchoServer.getUser().get(ind)+" just left");
+					ThreadedEchoServer.removeUser(ind);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+            	ThreadedEchoServer.removeSocket(socket);
                 return;
             }
         }
