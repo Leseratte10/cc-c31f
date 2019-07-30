@@ -18,7 +18,6 @@ public class EchoThread extends Thread {
         this.socket = clientSocket;
     }
 
-    //das ist ein Kommentar
     public void run() {
         InputStream inp = null;
         BufferedReader brinp = null;
