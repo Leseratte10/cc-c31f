@@ -18,6 +18,7 @@ public class EchoThread extends Thread {
         InputStream inp = null;
         BufferedReader brinp = null;
         DataOutputStream out = null;
+        int zahl = 1;
         try {
             inp = socket.getInputStream();
             brinp = new BufferedReader(new InputStreamReader(inp));
@@ -26,10 +27,18 @@ public class EchoThread extends Thread {
             return;
         }
         String line;
+        Boolean login = false;
+        String Benutzername;
+        
         while (true) {
             try {
                 line = brinp.readLine();
                 System.out.println(line);
+                if (login == false) {
+                	Benutzername = line;
+                	login = true;
+                	System.out.println("Der Benutzer" + Benutzername + "hat sich angemeldet.");
+                }
             } catch (IOException e) {
                 e.printStackTrace();
                 return;
