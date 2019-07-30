@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.ConnectException;
 import java.net.Socket;
+import java.net.SocketException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -23,11 +24,11 @@ public class TCPClient {
 			  clientSocket = new Socket("172.24.0.42", 1988);
 			  outToServer = new DataOutputStream(clientSocket.getOutputStream());
 		 } 
-		  catch (java.net.SocketException e) {
+		  catch (SocketException f) {
 
 
 					  System.out.println("Kein aufbau zum Server");
-					  TimeUnit.MINUTES.sleep(1);
+					  TimeUnit.SECONDS.sleep(30);
 					  System.exit(1);
 				
 			  }
@@ -39,7 +40,7 @@ public class TCPClient {
 		 }
 		 catch(ConnectException i) {
 			  System.out.println("Kein aufbau zum Server");
-			  TimeUnit.MINUTES.sleep(1);
+			  TimeUnit.SECONDS.sleep(30);
 			  System.exit(1);
 			  }
 		
@@ -55,10 +56,10 @@ public class TCPClient {
 
 		  String userName = System.getProperty("user.name");
 		  Benutzername = userName;
-		  System.out.print(sdf.format(now) +"Dein Benutername ist "+userName+"!");//
+		  System.out.print(sdf.format(now) +"Dein Benutername ist "+userName+"!"+'\n');//
 	  }
 	  else {
-		  System.out.print(sdf.format(now) +"Dein Benutername ist "+ Benutzername +"!"); //
+		  System.out.print(sdf.format(now) +"Dein Benutername ist "+ Benutzername +"!"+'\n'); //
 		  }
 	  outToServer.writeBytes(Benutzername + '\n');
 	  
