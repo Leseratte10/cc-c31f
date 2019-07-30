@@ -1,11 +1,13 @@
 package srv;
-
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.Socket;
+
+import javax.swing.JOptionPane;
 
 public class EchoThread extends Thread {
     protected Socket socket;
