@@ -28,8 +28,6 @@ public class TCPClient {
 		  System.out.print(sdf.format(now) +"Dein Benutername ist "+Benutzername+"!");
 		  outToServer.writeBytes(Benutzername + '\n');
 
-		  new ThreadSend(clientSocket).start();
-		  new ThreadReceive(clientSocket).start();
-
+		  
 	 }
 }
