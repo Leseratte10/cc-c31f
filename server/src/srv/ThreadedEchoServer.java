@@ -26,7 +26,7 @@ public class ThreadedEchoServer {
         DataOutputStream out = null;
     	for (int i=0; i<sockets.size() ; i++ ) {
     		out = new DataOutputStream(sockets.get(i).getOutputStream());
-    		out.writeBytes(line);
+    		out.writeBytes(line+"\n");
     	}
     }
 
