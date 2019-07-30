@@ -19,14 +19,14 @@ public class TCPClient {
 	      LocalDateTime now = LocalDateTime.now();
 		  
 		  String Benutzername;  
-		  System.out.print("Benutzername eingeben! Wenn du keinen eingibst, wird dein Windows-"+'\n'+"benutzername gebraucht!");
+		  System.out.print("Benutzername eingeben! Wenn du keinen eingibst, wird dein Windows-"+'\n'+"Benutzername gebraucht!");
 		  Benutzername = inFromUser.readLine();
 	  if (Benutzername == "" || Benutzername == "	"|| Benutzername == " ") {
 		  System.out.print(sdf.format(now) +"Dein Benutername ist "+Benutzername+"!");  
 	  }
 	  else {
 		  Benutzername = System.getProperty("user.name");
-		  System.out.print(sdf.format(now) +"Dein Benutername ist "+System.getProperty("user.name")+"!");
+		  System.out.print(sdf.format(now) +"Dein Benutzername ist "+System.getProperty("user.name")+"!");
 	  }
 	  outToServer.writeBytes(Benutzername + '\n');
 	  
