@@ -34,6 +34,7 @@ public class ThreadSend extends Thread {
 			System.out.println("Error: "+ e1);
 			this.stop();
 		}
+		
 				
 		
 	}
