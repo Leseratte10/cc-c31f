@@ -12,12 +12,12 @@ import java.time.format.DateTimeFormatter;
 public class EchoThread extends Thread {
     protected Socket socket;
     private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+    private static final DateTimeFormatter dft = DateTimeFormatter.ofPattern("HH:mm:ss");
 
     public EchoThread(Socket clientSocket) {
         this.socket = clientSocket;
     }
 
-    //das ist ein Kommentar
     public void run() {
         InputStream inp = null;
         BufferedReader brinp = null;
@@ -39,13 +39,18 @@ public class EchoThread extends Thread {
                 
                 line = brinp.readLine();
                 LocalDateTime now = LocalDateTime.now();
-                System.out.print(dtf.format(now));
-                System.out.println(line);
                 if (login == false) {
                 	Benutzername = line;
                 	login = true;
-                	System.out.println("Der Benutzer" + Benutzername + "hat sich angemeldet.");
-                	                }
+
+                	System.out.println("<"+dft.format(now)+"> Der Benutzer " + Benutzername + " hat sich angemeldet.");
+					ThreadedEchoServer.addUser(Benutzername);
+                }
+                else {
+                	System.out.print("<"+dtf.format(now)+"> ");
+                    System.out.println(line);
+
+                }
             } catch (IOException e) {
                 e.printStackTrace();
                 return;
