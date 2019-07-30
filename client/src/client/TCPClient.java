@@ -20,13 +20,14 @@ public class TCPClient {
 		  DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
 
 	      LocalDateTime now = LocalDateTime.now();
-	        
-
 		  
 		  String Benutzername;  
 		  Benutzername = System.getProperty("user.name");
 		  System.out.print(sdf.format(now) +"Dein Benutername ist "+Benutzername+"!");
 		  outToServer.writeBytes(Benutzername + '\n');
+		  
+		  new ThreadSend(clientSocket).start();
+		  new ThreadReceive(clientSocket).start();
 
 		  
 	 }
