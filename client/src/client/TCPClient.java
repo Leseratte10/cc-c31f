@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 public class TCPClient {
 	static boolean running = true;
-    private static final DateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+	private static final DateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 	 public static void main(String argv[]) throws Exception {
 		  BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
 		  
@@ -22,7 +22,7 @@ public class TCPClient {
 			  clientSocket = new Socket("172.24.0.42", 1988);
 			  outToServer = new DataOutputStream(clientSocket.getOutputStream());
 		 } 
-		  catch (ConnectException e) {
+		  catch (java.net.SocketException e) {
 			  while(true) {
 				  try {
 					  clientSocket = new Socket("172.24.0.42", 1988);
@@ -39,18 +39,18 @@ public class TCPClient {
 		  }
 
 		  
-	      LocalDateTime now = LocalDateTime.now();
+			java.util.Date now = new java.util.Date(System.currentTimeMillis());
 		  
 		  String Benutzername;
-		  System.out.print("Benutzername eingeben! Wenn du keinen eingibst, wird dein Windows-"+'\n'+"benutzername gebraucht!");
+		  System.out.print("Benutzername eingeben! Wenn du keinen eingibst, wird dein Windows Benutzername gebraucht!");
 		  Benutzername = inFromUser.readLine();
 	  if (Benutzername == "" || Benutzername == "	"|| Benutzername == " ") {
 
 		  Benutzername = System.getProperty("user.name");
-		  System.out.print(sdf.format(now) +"Dein Benutername ist "+System.getProperty("user.name")+"!");
+		  System.out.print(sdf.format(now) +"Dein Benutername ist "+System.getProperty("user.name")+"!");//
 	  }
 	  else {
-		  System.out.print(sdf.format(now) +"Dein Benutername ist "+Benutzername+"!");
+		  System.out.print(sdf.format(now) +"Dein Benutername ist "+ Benutzername +"!"); //
 		  }
 	  outToServer.writeBytes(Benutzername + '\n');
 	  
