@@ -17,9 +17,6 @@ public class TCPClient {
 		  DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
 		  
 	      LocalDateTime now = LocalDateTime.now();
-	        
-		  new ThreadSend(clientSocket).start();
-		  new ThreadReceive(clientSocket).start();
 		  
 		  String Benutzername;  
 		  System.out.print("Benutzername eingeben! Wenn du keinen eingibst, wird dein Windows-"+'\n'+"benutzername gebraucht!");
@@ -28,11 +25,14 @@ public class TCPClient {
 		  System.out.print(sdf.format(now) +"Dein Benutername ist "+Benutzername+"!");  
 	  }
 	  else {
+		  Benutzername = System.getProperty("user.name");
 		  System.out.print(sdf.format(now) +"Dein Benutername ist "+System.getProperty("user.name")+"!");
 	  }
+	  outToServer.writeBytes(Benutzername + '\n');
 	  
 		  
-		  outToServer.writeBytes(System.getProperty("user.name") + '\n');
+		  new ThreadSend(clientSocket).start();
+		  new ThreadReceive(clientSocket).start();
 
 		  
 	 }
