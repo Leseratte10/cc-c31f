@@ -2,6 +2,8 @@ package client;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.ConnectException;
 import java.net.Socket;
@@ -9,6 +11,8 @@ import java.net.SocketException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 import javax.swing.*;
 
@@ -113,11 +117,9 @@ public class TCPClient {
 			  TimeUnit.SECONDS.sleep(30);
 			  System.exit(0);
 			  }
-		
+		 
+			java.util.Date now = new java.util.Date(System.currentTimeMillis());		  
 
-
-		  
-			java.util.Date now = new java.util.Date(System.currentTimeMillis());
 		  
 
 		  
@@ -137,7 +139,25 @@ public class TCPClient {
 	  
 	  	outToServer.writeBytes(Benutzername); // + '\n'
 	  
-		  
+	  System.out.print("In welchen der folgenden Räume möchtest du beitreten?");
+      InputStream inp = null;
+      BufferedReader brinp = null;
+      
+      try {
+          inp = clientSocket.getInputStream();
+          brinp = new BufferedReader(new InputStreamReader(inp));
+      } 
+      catch (IOException e) {
+          return;
+      }
+      String raumname = brinp.readLine();
+      ArrayList<String> raumliste = (ArrayList<String>) Arrays.asList(raumname.split(";"));
+      for (String name:raumliste) {
+    	  System.out.print(name);
+      }
+      raumname = inFromUser.readLine();
+      outToServer.writeBytes(raumname);
+	  
 		  new ThreadSend(clientSocket).start();
 		  new ThreadReceive(clientSocket).start();
 
