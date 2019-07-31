@@ -1,18 +1,42 @@
 package client;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Base64;
 import java.io.*;
+import java.net.URI;
 
 public class sendfile {
-
-	public static void main(String[] args) throws Exception{
-		//TODO string path if textdokument send header and body with endmsg
-		// TODO if binary convert to bas64 and send header with body afterwards , decode at reciver
 		
-		FileReader reader = new FileReader("Z:\\Prgrammieren 3.5 Projekt\\cc-c31f\\cc-c31f\\client\\src\\file.txt"); // Dateispeicherort muss später selber eingegeben werden
-		BufferedReader inBuffer = new BufferedReader(reader);
+		private static Path path;
+		
+		//public sendfile(URI filepath) {
+			//this.path = Paths.get(filepath);
+		//}
 
-		String line = inBuffer.readLine();
-	}
+		public static void run() throws IOException {
+			int Count = 0;
+			//this.path = Paths.get(filepath);
+			Path file = Paths.get("H:/C31F/Code Projekt 3.5/Jona Gräf/cc-c31f/TEST.txt");
+			byte[] fileArray;
+			fileArray = Files.readAllBytes(file);
+			while(true)
+			{
+				System.out.println(fileArray[Count]);
+				Count = Count + 1;
+				if (Count == fileArray.length)
+				{
+					break;
+				}
+			}
+		}
 
+		public static Path getPath() {
+			return path;
+		}
+
+		//public void setPath(Path path) {
+			//this.path = path;
+		//}
 }
