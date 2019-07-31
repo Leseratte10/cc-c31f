@@ -39,31 +39,16 @@ public class ThreadReceive extends Thread {
                 System.out.println("<"+sdf.format(now)+">" +" "+line);
             }
             catch(SocketException e) {
-				e.printStackTrace();
+				System.out.println('\n'+"Der Server wurde geschlossen oder die Connection wurde abgebrochen!");
 				return;
             } catch (IOException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println('\n'+"Der Server wurde geschlossen oder die Connection wurde abgebrochen!");
 				return;
 			}
-            
-/*        	try {
-                line = brinp.readLine();
-                System.out.println("<"+sdf.format(now)+">" +" "+line);
-        	} catch(SocketException e){
-                e.printStackTrace();
-                return;
-        	} catch (IOException e) {
-				e.printStackTrace();
-				return;
-			}
-*/
-        	
+                    	
         }
-        
-        
-        
-	
+
 	}
 	
 }
