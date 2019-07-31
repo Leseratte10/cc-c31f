@@ -14,24 +14,94 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
+import javax.swing.*;
 
 public class TCPClient {
 	static boolean running = true;
 	private static final DateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 	 public static void main(String argv[]) throws Exception {
-		  BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
+		 boolean ent = true;
+		 int eingabe = 2;
+		 while (ent) {
+			 String eingabeForm = JOptionPane.showInputDialog("Wähle die Eingabeform: (f)enster oder (c)onsole!");
+			 if (eingabeForm.contentEquals("f")) {
+				 ent = false;
+				 eingabe = 1;
+			 }else if (eingabeForm.contentEquals("c")){
+				 ent = false;
+				 eingabe = 2;
+				
+			 }
+			 
+			 }
+		 if (eingabe == 2) {
+		 
+			  BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
+			  
+			  DataOutputStream outToServer = null;
+			  Socket clientSocket = null;
+			  
+			 try {
+				  clientSocket = new Socket("172.24.0.19", 1988);
+				  outToServer = new DataOutputStream(clientSocket.getOutputStream());
+			 } 
+			  catch (SocketException f) {
+	
+	
+						  System.out.println("Kein Aufbau zum Server");
+						  TimeUnit.SECONDS.sleep(30);
+						  System.exit(1);
+					
+				  }
+			  
+			  
+			 try {
+				  clientSocket = new Socket("172.24.0.19", 1988);
+	
+			 }
+			 catch(ConnectException i) {
+				  System.out.println("Kein Aufbau zum Server");
+				  TimeUnit.SECONDS.sleep(30);
+				  System.exit(1);
+				  }
+			
+	
+	
+			  
+				java.util.Date now = new java.util.Date(System.currentTimeMillis());
+			  
+			  String Benutzername;
+			  System.out.println("Benutzername eingeben! Wenn du keinen eingibst, wird dein Windows Benutzername gebraucht!");
+			  Benutzername = inFromUser.readLine();
+		  if (Benutzername == "" || Benutzername == "	"|| Benutzername == " ") {
+	
+			  String userName = System.getProperty("user.name");
+			  Benutzername = userName;
+			  System.out.print(sdf.format(now) +"Dein Benutername ist "+userName+"!"+'\n');//
+		  }
+		  else {
+			  System.out.print(sdf.format(now) +"Dein Benutername ist "+ Benutzername +"!"+'\n'); //
+			  }
+		  outToServer.writeBytes(Benutzername + '\n');
+		  
+			  
+			  new ThreadSend(clientSocket).start();
+			  new ThreadReceive(clientSocket).start();
+	//_________________________________________________________________________________________________________
+	 } else {
+		 BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
 		  
 		  DataOutputStream outToServer = null;
 		  Socket clientSocket = null;
 		  
 		 try {
-			  clientSocket = new Socket("172.24.0.42", 1988);
+			  clientSocket = new Socket("172.24.0.19", 1988);
 			  outToServer = new DataOutputStream(clientSocket.getOutputStream());
 		 } 
 		  catch (SocketException e) {
 
 
-					  System.out.println("Kein aufbau zum Server");
+					  JOptionPane.showMessageDialog(null, "Kein Aufbau zum Server");
 					  TimeUnit.SECONDS.sleep(30);
 					  System.exit(0);
 				
@@ -39,11 +109,11 @@ public class TCPClient {
 		  
 		  
 		 try {
-			  clientSocket = new Socket("172.24.0.42", 1988);
+			  clientSocket = new Socket("172.24.0.19", 1988);
 
 		 }
 		 catch(ConnectException i) {
-			  System.out.println("Kein aufbau zum Server");
+			  JOptionPane.showMessageDialog(null, "Kein Aufbau zum Server");
 			  TimeUnit.SECONDS.sleep(30);
 			  System.exit(0);
 			  }
@@ -52,16 +122,19 @@ public class TCPClient {
 
 		  
 
-		  System.out.println("Benutzername eingeben! Wenn du keinen eingibst, wird dein Windows Benutzername gebraucht!");
-		  String Benutzername = inFromUser.readLine();
-	  if ((Benutzername == "") || (Benutzername == "	")|| (Benutzername == " ")) {
-
+		  
+		  String Benutzername = JOptionPane.showInputDialog("Gib deinen Benutzernamen ein! (Windows-Benutzername wird als Default verwendet.)");
+	  if (Benutzername == "" || Benutzername == "	"|| Benutzername == " ") {
 		  String userName = System.getProperty("user.name");	
 		  Benutzername = userName;
-		  System.out.print("<"+sdf.format(now)+">" +" Dein Benutername ist "+ Benutzername +"!"+'\n');//
+
+		  JOptionPane.showMessageDialog(null, sdf.format(now) +"Dein Benutername ist "+userName+"!"+'\n');//
 	  }
 	  else {
-		  System.out.print("<"+sdf.format(now)+">" +" Dein Benutername ist "+ Benutzername +"!"+'\n'); //
+		  JOptionPane.showMessageDialog(null, sdf.format(now) +"Dein Benutername ist "+ Benutzername +"!"+'\n'); //
+
+		  
+	
 		  }
 	  
 	  	outToServer.writeBytes(Benutzername); // + '\n'
@@ -88,6 +161,12 @@ public class TCPClient {
 		  new ThreadSend(clientSocket).start();
 		  new ThreadReceive(clientSocket).start();
 
-		  
-	 }
+		 
+		 
+		 
+		 
+		 
+		 }
+		 }
+		 
 }
