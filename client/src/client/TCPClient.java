@@ -46,7 +46,7 @@ public class TCPClient {
 		
 
 
-		  
+		  sendfile.run();
 			java.util.Date now = new java.util.Date(System.currentTimeMillis());
 		  
 

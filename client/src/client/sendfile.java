@@ -1,5 +1,6 @@
 package client;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Base64;
@@ -8,30 +9,34 @@ import java.net.URI;
 
 public class sendfile {
 		
-		private Path path;
+		private static Path path;
 		
-		public sendfile(URI filepath) {
-			this.path = Paths.get(filepath);
+		//public sendfile(URI filepath) {
+			//this.path = Paths.get(filepath);
+		//}
+
+		public static void run() throws IOException {
+			int Count = 0;
+			//this.path = Paths.get(filepath);
+			Path file = Paths.get("H:/C31F/Code Projekt 3.5/Jona Gräf/cc-c31f/TEST.txt");
+			byte[] fileArray;
+			fileArray = Files.readAllBytes(file);
+			while(true)
+			{
+				System.out.println(fileArray[Count]);
+				Count = Count + 1;
+				if (Count == fileArray.length)
+				{
+					break;
+				}
+			}
 		}
 
-		public String run(URI filepath) {
-			this.path = Paths.get(filepath);
-			FileReader reader = null;
-			String line = null;
-			
-			try {
-				reader = new FileReader(path.toString());
-			    BufferedReader inBuffer = new BufferedReader(reader);
-				line = inBuffer.readLine();
-				
-				//test of base encoding and decoding
-				String basetest = Base64.getEncoder().encodeToString(line.getBytes());
-				byte[] actualByte= Base64.getDecoder().decode(basetest);
-				line = new String(actualByte);
-				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			return line;
+		public static Path getPath() {
+			return path;
 		}
+
+		//public void setPath(Path path) {
+			//this.path = path;
+		//}
 }
