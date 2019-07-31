@@ -94,12 +94,12 @@ public class TCPClient {
 			  clientSocket = new Socket("172.24.0.19", 1988);
 			  outToServer = new DataOutputStream(clientSocket.getOutputStream());
 		 } 
-		  catch (SocketException f) {
+		  catch (SocketException e) {
 
 
 					  JOptionPane.showMessageDialog(null, "Kein Aufbau zum Server");
 					  TimeUnit.SECONDS.sleep(30);
-					  System.exit(1);
+					  System.exit(0);
 				
 			  }
 		  
@@ -111,7 +111,7 @@ public class TCPClient {
 		 catch(ConnectException i) {
 			  JOptionPane.showMessageDialog(null, "Kein Aufbau zum Server");
 			  TimeUnit.SECONDS.sleep(30);
-			  System.exit(1);
+			  System.exit(0);
 			  }
 		
 
@@ -119,18 +119,23 @@ public class TCPClient {
 		  
 			java.util.Date now = new java.util.Date(System.currentTimeMillis());
 		  
+
 		  
 		  String Benutzername = JOptionPane.showInputDialog("Gib deinen Benutzernamen ein! (Windows-Benutzername wird als Default verwendet.)");
 	  if (Benutzername == "" || Benutzername == "	"|| Benutzername == " ") {
-
-		  String userName = System.getProperty("user.name");
+		  String userName = System.getProperty("user.name");	
 		  Benutzername = userName;
+
 		  JOptionPane.showMessageDialog(null, sdf.format(now) +"Dein Benutername ist "+userName+"!"+'\n');//
 	  }
 	  else {
 		  JOptionPane.showMessageDialog(null, sdf.format(now) +"Dein Benutername ist "+ Benutzername +"!"+'\n'); //
+
+		  
+	
 		  }
-	  outToServer.writeBytes(Benutzername + '\n');
+	  
+	  	outToServer.writeBytes(Benutzername); // + '\n'
 	  
 		  
 		  new ThreadSend(clientSocket).start();
