@@ -41,6 +41,7 @@ public class EchoThread extends Thread {
                 
                 line = brinp.readLine();
                 LocalDateTime now = LocalDateTime.now();
+                System.out.println("bis hie komm ich");
                 if (login == false) {
                 	Benutzername = line;
                 	login = true;
