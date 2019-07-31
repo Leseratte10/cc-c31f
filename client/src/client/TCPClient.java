@@ -56,16 +56,16 @@ public class TCPClient {
 			java.util.Date now = new java.util.Date(System.currentTimeMillis());
 		  
 
-		  System.out.println("Benutzername eingeben! Wenn du keinen eingibst, wird dein Windows Benutzername gebraucht!\033[33m");
+		  System.out.println("Benutzername eingeben! Wenn du keinen eingibst, wird dein Windows Benutzername gebraucht!");
 		  String Benutzername = inFromUser.readLine().trim();
 	  if ((Benutzername.equals(""))||(Benutzername.equals("	"))|| (Benutzername.equals(" "))) { 
 		  String userName = System.getProperty("user.name");	
 		  Benutzername = userName;
-		  System.out.print(ANSI_RED + "<"+sdf.format(now)+">"+ANSI_RESET+ ANSI_BLUE +" Dein Benutername ist "+ Benutzername +"!"+'\n');//
+		  System.out.print("<"+sdf.format(now)+">"+" Dein Benutername ist "+ Benutzername +"!"+'\n');//
 	  }
 	  else {
 		  
-		  System.out.print(ANSI_RED +"<"+sdf.format(now)+">"+ANSI_RESET+ ANSI_BLUE +" Dein Benutername ist "+ Benutzername +"!"+'\n'); //
+		  System.out.print("<"+sdf.format(now)+">"+" Dein Benutername ist "+ Benutzername +"!"+'\n'); //
 
 		  }
 //	  	outToServer.writeBytes(Benutzername); // + '\n'
