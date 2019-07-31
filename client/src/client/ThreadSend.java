@@ -16,13 +16,7 @@ public class ThreadSend extends Thread {
 	public ThreadSend(Socket socket) {
 		this.socket = socket;
 	}
-	public static String codierung (String text, Integer pub1,Integer pub2) {
-		String codeText = "";
-		codeText = rsa(vigenere(text), pub1, pub2);
-		
-		return codeText;
-		
-	}
+	
 	public void run(){
 		
 		String sentence;
@@ -38,7 +32,11 @@ public class ThreadSend extends Thread {
 				  Scanner codieren = new Scanner(System.in);
 				  int codeOn = codieren.nextInt();
 				  if (codeOn == 1){
-					  ArrayList <Integer> primzahlArray = primzahlGenerator();
+					  //ArrayList <Integer> primzahlArray = primzahlGenerator();
+					  ArrayList <Integer> primzahlArray = new ArrayList<Integer>();
+					  primzahlArray.add(89);
+					  primzahlArray.add(67);
+					  primzahlArray.add(23);
 					  BigInteger privateKey = privatKeyBerechner(primzahlArray.get(0),primzahlArray.get(1),primzahlArray.get(2));
 					  Integer publicKey2 = publicKeyBerechner(primzahlArray.get(0),primzahlArray.get(1),primzahlArray.get(2));
 					  Integer publicKey1 = primzahlArray.get(2);
@@ -187,6 +185,13 @@ public class ThreadSend extends Thread {
 		publicKey1 = primzahl3;
 		publicKey2 = primzahl1*primzahl2;
 		return publicKey2;
+	}
+	public static String codierung (String text, Integer pub1,Integer pub2) {
+		String codeText = "";
+		codeText = rsa(vigenere(text), pub1, pub2);
+		
+		return codeText;
+		
 	}
 		  	
 }
