@@ -11,9 +11,15 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
+import javax.swing.JOptionPane;
+
 public class TCPClient {
 	static boolean running = true;
 	private static final DateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+	public static final String ANSI_BLUE = "\u001B[34m";
+	public static final String ANSI_RED = "\u001B[31m";
+	public static final String ANSI_RESET = "\u001B[0m";
+	public static final String ANSI_GREEN = "\u001B[32m";
 	 public static void main(String argv[]) throws Exception {
 		  BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
 		  
@@ -39,7 +45,7 @@ public class TCPClient {
 
 		 }
 		 catch(ConnectException i) {
-			  System.out.println("Kein aufbau zum Server");
+			  System.out.println(ANSI_RED +"Kein aufbau zum Server" +ANSI_RESET);
 			  TimeUnit.SECONDS.sleep(30);
 			  System.exit(0);
 			  }
@@ -50,19 +56,19 @@ public class TCPClient {
 			java.util.Date now = new java.util.Date(System.currentTimeMillis());
 		  
 
-		  System.out.println("Benutzername eingeben! Wenn du keinen eingibst, wird dein Windows Benutzername gebraucht!");
-		  String Benutzername = inFromUser.readLine();
-	  if ((Benutzername == "") || (Benutzername == "	")|| (Benutzername == " ")) {
-
+		  System.out.println("Benutzername eingeben! Wenn du keinen eingibst, wird dein Windows Benutzername gebraucht!\033[33m");
+		  String Benutzername = inFromUser.readLine().trim();
+	  if ((Benutzername.equals(""))||(Benutzername.equals("	"))|| (Benutzername.equals(" "))) { 
 		  String userName = System.getProperty("user.name");	
 		  Benutzername = userName;
-		  System.out.print("<"+sdf.format(now)+">" +" Dein Benutername ist "+ Benutzername +"!"+'\n');//
+		  System.out.print(ANSI_RED + "<"+sdf.format(now)+">"+ANSI_RESET+ ANSI_BLUE +" Dein Benutername ist "+ Benutzername +"!"+'\n');//
 	  }
 	  else {
-		  System.out.print("<"+sdf.format(now)+">" +" Dein Benutername ist "+ Benutzername +"!"+'\n'); //
+		  
+		  System.out.print(ANSI_RED +"<"+sdf.format(now)+">"+ANSI_RESET+ ANSI_BLUE +" Dein Benutername ist "+ Benutzername +"!"+'\n'); //
+
 		  }
-	  
-	  	outToServer.writeBytes(Benutzername); // + '\n'
+//	  	outToServer.writeBytes(Benutzername); // + '\n'
 	  
 		  
 		  new ThreadSend(clientSocket).start();
