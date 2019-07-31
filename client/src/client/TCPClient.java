@@ -29,7 +29,7 @@ public class TCPClient {
 
 					  System.out.println("Kein aufbau zum Server");
 					  TimeUnit.SECONDS.sleep(30);
-					  System.exit(1);
+					  System.exit(0);
 				
 			  }
 		  
@@ -41,7 +41,7 @@ public class TCPClient {
 		 catch(ConnectException i) {
 			  System.out.println("Kein aufbau zum Server");
 			  TimeUnit.SECONDS.sleep(30);
-			  System.exit(1);
+			  System.exit(0);
 			  }
 		
 
@@ -49,19 +49,20 @@ public class TCPClient {
 		  
 			java.util.Date now = new java.util.Date(System.currentTimeMillis());
 		  
-		  String Benutzername;
-		  System.out.println("Benutzername eingeben! Wenn du keinen eingibst, wird dein Windows Benutzername gebraucht!");
-		  Benutzername = inFromUser.readLine();
-	  if (Benutzername == "" || Benutzername == "	"|| Benutzername == " ") {
 
-		  String userName = System.getProperty("user.name");
+		  System.out.println("Benutzername eingeben! Wenn du keinen eingibst, wird dein Windows Benutzername gebraucht!");
+		  String Benutzername = inFromUser.readLine();
+	  if ((Benutzername == "") || (Benutzername == "	")|| (Benutzername == " ")) {
+
+		  String userName = System.getProperty("user.name");	
 		  Benutzername = userName;
-		  System.out.print(sdf.format(now) +"Dein Benutername ist "+userName+"!"+'\n');//
+		  System.out.print("<"+sdf.format(now)+">" +" Dein Benutername ist "+ userName +"!"+'\n');//
 	  }
 	  else {
-		  System.out.print(sdf.format(now) +"Dein Benutername ist "+ Benutzername +"!"+'\n'); //
+		  System.out.print("<"+sdf.format(now)+">" +" Dein Benutername ist "+ Benutzername +"!"+'\n'); //
 		  }
-	  outToServer.writeBytes(Benutzername + '\n');
+	  
+	  	outToServer.writeBytes(Benutzername); // + '\n'
 	  
 		  
 		  new ThreadSend(clientSocket).start();
