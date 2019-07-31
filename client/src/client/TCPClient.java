@@ -24,7 +24,7 @@ public class TCPClient {
 			  clientSocket = new Socket("172.24.0.42", 1988);
 			  outToServer = new DataOutputStream(clientSocket.getOutputStream());
 		 } 
-		  catch (SocketException f) {
+		  catch (SocketException e) {
 
 
 					  System.out.println("Kein aufbau zum Server");
@@ -56,7 +56,7 @@ public class TCPClient {
 
 		  String userName = System.getProperty("user.name");	
 		  Benutzername = userName;
-		  System.out.print("<"+sdf.format(now)+">" +" Dein Benutername ist "+ userName +"!"+'\n');//
+		  System.out.print("<"+sdf.format(now)+">" +" Dein Benutername ist "+ Benutzername +"!"+'\n');//
 	  }
 	  else {
 		  System.out.print("<"+sdf.format(now)+">" +" Dein Benutername ist "+ Benutzername +"!"+'\n'); //

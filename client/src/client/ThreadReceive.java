@@ -6,6 +6,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.net.SocketException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
+import javax.swing.JOptionPane;
 
 public class ThreadReceive extends Thread {
 	protected Socket socket;
@@ -17,23 +22,43 @@ public class ThreadReceive extends Thread {
 	public void run() {
         InputStream inp = null;
         BufferedReader brinp = null;
-        
+    	final DateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         try {
             inp = socket.getInputStream();
             brinp = new BufferedReader(new InputStreamReader(inp));
         } catch (IOException e) {
             return;
         }
+
         
+		java.util.Date now = new java.util.Date(System.currentTimeMillis());
         String line;
         while (true) {
             try {
                 line = brinp.readLine();
-                System.out.println(line);
+                System.out.println("<"+sdf.format(now)+">" +" "+line);
+            }
+            catch(SocketException e) {
+				e.printStackTrace();
+				return;
             } catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return;
+			}
+            
+/*        	try {
+                line = brinp.readLine();
+                System.out.println("<"+sdf.format(now)+">" +" "+line);
+        	} catch(SocketException e){
                 e.printStackTrace();
                 return;
-            }
+        	} catch (IOException e) {
+				e.printStackTrace();
+				return;
+			}
+*/
+        	
         }
         
         
