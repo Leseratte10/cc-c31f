@@ -1,18 +1,37 @@
 package client;
 
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Base64;
 import java.io.*;
+import java.net.URI;
 
 public class sendfile {
-
-	public static void main(String[] args) throws Exception{
-		//TODO string path if textdokument send header and body with endmsg
-		// TODO if binary convert to bas64 and send header with body afterwards , decode at reciver
 		
-		FileReader reader = new FileReader("Z:\\Prgrammieren 3.5 Projekt\\cc-c31f\\cc-c31f\\client\\src\\file.txt"); // Dateispeicherort muss später selber eingegeben werden
-		BufferedReader inBuffer = new BufferedReader(reader);
+		private Path path;
+		
+		public sendfile(URI filepath) {
+			this.path = Paths.get(filepath);
+		}
 
-		String line = inBuffer.readLine();
-	}
-
+		public String run(URI filepath) {
+			this.path = Paths.get(filepath);
+			FileReader reader = null;
+			String line = null;
+			
+			try {
+				reader = new FileReader(path.toString());
+			    BufferedReader inBuffer = new BufferedReader(reader);
+				line = inBuffer.readLine();
+				
+				//test of base encoding and decoding
+				String basetest = Base64.getEncoder().encodeToString(line.getBytes());
+				byte[] actualByte= Base64.getDecoder().decode(basetest);
+				line = new String(actualByte);
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return line;
+		}
 }
