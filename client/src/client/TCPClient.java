@@ -1,30 +1,31 @@
-package client;
+package client.src.client;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
+<<<<<<< HEAD
 import java.net.ConnectException;
 import java.net.InetAddress;
+=======
+>>>>>>> 2e815a7602c6d58680113006c34ba9159db4b807
 import java.net.Socket;
-import java.net.SocketException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
-
-
 import javax.swing.JOptionPane;
+import java.time.LocalDateTime;
 
 public class TCPClient {
 	static boolean running = true;
-	private static final DateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+    private static final DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 	public static final String ANSI_BLUE = "\u001B[34m";
 	public static final String ANSI_RED = "\u001B[31m";
 	public static final String ANSI_RESET = "\u001B[0m";
 	public static final String ANSI_GREEN = "\u001B[32m";
+	
+	
 	 public static void main(String argv[]) throws Exception {
 		 boolean ent = true;
 		 int eingabe = 2;
@@ -145,6 +146,7 @@ public class TCPClient {
 			InputStream inp = null;
 			BufferedReader brinp = null;
       
+<<<<<<< HEAD
 			try {
 				inp = clientSocket.getInputStream();
 				brinp = new BufferedReader(new InputStreamReader(inp));
@@ -162,6 +164,39 @@ public class TCPClient {
 	  
 			new ThreadSend(clientSocket).start();
 			new ThreadReceive(clientSocket).start();
+=======
+      try {
+          inp = clientSocket.getInputStream();
+          brinp = new BufferedReader(new InputStreamReader(inp));
+      } 
+      catch (IOException e) {
+          return;
+      }
+      String raumname = brinp.readLine();
+      ArrayList<String> raumliste = (ArrayList<String>) Arrays.asList(raumname.split(";"));
+      for (String name:raumliste) {
+    	  System.out.print(name);
+      }
+      raumname = inFromUser.readLine();
+      outToServer.writeBytes(raumname);
+
+
+		  
+		  new ThreadSend(clientSocket, Benutzername, to).start();
+		  //new ThreadReceive(clientSocket).start();
+
+
+		  
+	 }
+}
+
+	 
+		 
+		 
+		 
+		 
+		 }
+>>>>>>> 2e815a7602c6d58680113006c34ba9159db4b807
 		 }
 	}	 
 }	 
