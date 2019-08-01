@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
+
 import javax.swing.JOptionPane;
 
 public class TCPClient {
@@ -35,6 +36,12 @@ public class TCPClient {
 			 }else if (eingabeForm.equals("c")){
 				 ent = false;
 				 eingabe = 2;
+			 }else if (eingabeForm.equals("C")){
+				 ent = false;
+				 eingabe = 2;
+			 }else if (eingabeForm.equals("F")){
+				 ent = false;
+				 eingabe = 1;
 			 } else if(eingabeForm.equals("console")){
 				 ent = false;
 				 eingabe = 2;
