@@ -33,10 +33,10 @@ public class ThreadSend extends Thread {
 					System.out.println("Gib eine Nachricht oder einen Filepath ein!");
 					Message message = null;
 					sentence = inFromUser.readLine();
-					if(sentence != null || sentence.equals("")) {
+					if(sentence.equals("")|| sentence != null) {
 						text.append(sentence);
 						sentence = inFromUser.readLine();
-						if(sentence.equals(" ") || sentence.equals("")|| sentence == null) {
+						if(sentence.equals(" ") || sentence.equals("") || sentence == null) {
 							System.out.println("Ungültige Eingabe!");
 						}
 					File file = new File(text.toString());

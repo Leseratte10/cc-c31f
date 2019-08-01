@@ -1,5 +1,6 @@
 package srv;
-import javax.swing.*;
+
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -9,7 +10,6 @@ import java.net.Socket;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import javax.swing.JOptionPane;
 
 public class EchoThread extends Thread {
     protected Socket socket;
@@ -79,7 +79,8 @@ public class EchoThread extends Thread {
 					ThreadedEchoServer.removeUser(ind);
 					ThreadedEchoServer.sendToAll("<"+dft.format(now)+"> "+ThreadedEchoServer.getUser().get(ind)+" just left", socket);
 				} catch (IOException e1) {
-					e1.printStackTrace();
+					//e1.printStackTrace();
+					System.out.println(ThreadedEchoServer.getUser().get(ind)+" just left" + socket + " left.");
 				}
             	
             	ThreadedEchoServer.removeSocket(socket);
