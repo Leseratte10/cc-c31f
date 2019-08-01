@@ -106,7 +106,7 @@ public class ThreadedEchoServer {
         try {
             serverSocket = new ServerSocket(PORT);
         } catch (IOException e) {
-            System.out.print("Kann nicht �ber diesen Port Starten!" +'\n');
+            System.out.print("Kann nicht über diesen Port Starten! Oder der Server läuft bereits über diesen Port" +'\n');
             System.exit(0);
 
         }
