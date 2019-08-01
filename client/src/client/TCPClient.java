@@ -52,7 +52,7 @@ public class TCPClient {
 
 			  
 			 try {
-				  clientSocket = new Socket("172.24.0.16", 1988);
+				  clientSocket = new Socket("172.24.0.42", 1988);
 				  outToServer = new DataOutputStream(clientSocket.getOutputStream());
 				  inp = clientSocket.getInputStream();
 		          brinp = new BufferedReader(new InputStreamReader(inp));
@@ -70,21 +70,6 @@ public class TCPClient {
 					  System.exit(1);
 				  }	
 			  }
-			 try {
-				  clientSocket = new Socket("172.24.0.19", 1988);
-			 }
-			 catch(ConnectException i) {
-				  if (eingabe == 1) {
-					  JOptionPane.showMessageDialog(null,"Warnung" + '\n'+ "Kein Aufbau zum Server");
-					  TimeUnit.SECONDS.sleep(30);
-					  System.exit(1);
-				  }
-				  else {
-				  System.out.println("Kein Aufbau zum Server");
-				  TimeUnit.SECONDS.sleep(30);
-				  System.exit(1);
-			  	}
-			 }
 		if(eingabe == 2) {
 			System.out.println("Gib deinen Benutzernamen ein! (Windows-Benutzername wird als Default verwendet.)");
 			  Benutzername = inFromUser.readLine();

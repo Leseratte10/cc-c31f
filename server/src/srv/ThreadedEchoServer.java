@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class ThreadedEchoServer {
 
 
-    static final int PORT = 1980;
+    static final int PORT = 1988;
     
     static ArrayList<String> benutzer = new ArrayList<String>();
     static ArrayList<Socket> sockets = new ArrayList<Socket>();
