@@ -42,11 +42,9 @@ public class EchoThread extends Thread {
                 
                 line = brinp.readLine();
                 LocalDateTime now = LocalDateTime.now();
-                System.out.println("out"+login);
                 if (login) {
                 	Benutzername = line;
                 	login = false;
-                	System.out.println("in"+login);
                 	ThreadedEchoServer.addUser(Benutzername);
                 	String roomlist =ThreadedEchoServer.roomsToString();
                 	out.writeBytes(roomlist+'\n');
@@ -64,7 +62,6 @@ public class EchoThread extends Thread {
                 	String text = "Der Benutzer " + Benutzername + " hat Raum "+room+" betreten.";
                 	System.out.println("<"+dft.format(now)+"> "+text);
 					ThreadedEchoServer.sendToAll(text, socket);
-					System.out.println(ThreadedEchoServer.roomsToString());
                 }
                 else {
                 	System.out.print("<"+dtf.format(now)+"> ");
@@ -77,7 +74,9 @@ public class EchoThread extends Thread {
             	try {
             		System.out.println("<"+dtf.format(now)+"> "+ThreadedEchoServer.getUser().get(ind)+" just left");
 					ThreadedEchoServer.removeUser(ind);
+					ThreadedEchoServer.removeSocket(socket);
 					ThreadedEchoServer.sendToAll("<"+dft.format(now)+"> "+ThreadedEchoServer.getUser().get(ind)+" just left", socket);
+					this.stop();
 				} catch (IOException e1) {
 					//e1.printStackTrace();
 					System.out.println(ThreadedEchoServer.getUser().get(ind)+" just left" + socket + " left.");

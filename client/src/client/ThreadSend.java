@@ -12,7 +12,7 @@ public class ThreadSend extends Thread {
 	
 	String username;
 	String to;
-	String type;
+	int type;
 	
 	public ThreadSend(Socket socket, String username, String to) {
 		this.socket = socket;
@@ -30,33 +30,30 @@ public class ThreadSend extends Thread {
 			outToServer = new DataOutputStream(socket.getOutputStream());
 			while (true) {
 				try {
-					System.out.println("Gib eine Nachricht oder einen Filepath ein!");
+					System.out.print("Nachricht / Datei: ");
 					Message message = null;
 					sentence = inFromUser.readLine();
-					if(sentence.equals("")|| sentence != null) {
-						text.append(sentence);
-						sentence = inFromUser.readLine();
-						if(sentence.equals(" ") || sentence.equals("") || sentence == null) {
-							System.out.println("Ungültige Eingabe!");
+					if(sentence != null) {
+						File file = new File(sentence);
+						if(file.exists()) {
+							type = 2;
+						}else {
+							type = 1;
 						}
-					File file = new File(text.toString());
-					if(file.exists()) {
-						type = "2";
-					}else {
-						type = "1";
-					}
-					if(type.equals("1")) {
-						System.out.println(sentence);
-						message = new Message(username, to, new String(text), type);
-						System.out.println("Deine Nachricht lautet: " + message.getOutputString());
+						if(type == 1) {
+							System.out.println(sentence);
+							message = new Message(username, to, sentence, type);
+							System.out.println("Deine Nachricht lautet: " + message.getOutputString());
+							}
+						} else /*if(type == 2)*/{
+							String mes = Message.encodeFile(text.toString());
+							message = new Message(username, to, mes, type);
+							//System.out.println("Working 2.");
 						}
-					}else /*if(type.equals("2"))*/{
-						String mes = Message.encodeFile(text.toString());
-						message = new Message(username, to, mes, type);
-					}
-					//System.out.println("Working 2.");
-					outToServer.writeBytes(message.getOutputString() + '\n');
-					outToServer.flush();
+						outToServer.writeBytes(message.getOutputString() + '\n');
+						outToServer.flush();
+					
+					
 					
 				}catch(Exception e){
 					System.out.println("Error: "+ e);
@@ -65,10 +62,6 @@ public class ThreadSend extends Thread {
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			System.out.println("Error: "+ e1);
-		}
-				
-		
+		}		
 	}
-	
-		  	
 }
