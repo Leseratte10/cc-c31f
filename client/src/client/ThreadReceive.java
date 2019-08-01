@@ -25,6 +25,7 @@ public class ThreadReceive extends Thread {
         InputStream inp = null;
         BufferedReader brinp = null;
     	final DateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+    	final String ANSI_RED = "\u001B[31m";
         try {
             inp = socket.getInputStream();
             brinp = new BufferedReader(new InputStreamReader(inp));
@@ -49,11 +50,11 @@ public class ThreadReceive extends Thread {
                 System.out.println("<"+sdf.format(now)+">" +" "+line);
             }
             catch(SocketException e) {
-				System.out.println('\n'+"Der Server wurde geschlossen oder die Connection wurde abgebrochen!");
+				System.out.println('\n'+ANSI_RED+"Der Server wurde geschlossen oder die Connection wurde abgebrochen!");
 				return;
             } catch (IOException e) {
 				// TODO Auto-generated catch block
-				System.out.println('\n'+"Der Server wurde geschlossen oder die Connection wurde abgebrochen!");
+				System.out.println('\n'+ANSI_RED+"Der Server wurde geschlossen oder die Connection wurde abgebrochen!");
 				return;
 			}
                     	
