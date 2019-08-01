@@ -28,7 +28,7 @@ public class Message {
 	private String type;
 	
 	
-
+	
 	/*Types:
 	 * TextMessage = "1"
 	 * File = "2"
