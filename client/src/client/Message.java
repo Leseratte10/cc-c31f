@@ -1,4 +1,4 @@
-package client.src.client;
+package client;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -28,7 +28,7 @@ public class Message {
 	private String type;
 	
 	
-	
+
 	/*Types:
 	 * TextMessage = "1"
 	 * File = "2"

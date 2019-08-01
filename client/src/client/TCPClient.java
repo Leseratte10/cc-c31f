@@ -2,6 +2,8 @@ package client.src.client;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 <<<<<<< HEAD
 import java.net.ConnectException;
@@ -9,6 +11,7 @@ import java.net.InetAddress;
 =======
 >>>>>>> 2e815a7602c6d58680113006c34ba9159db4b807
 import java.net.Socket;
+import java.net.SocketException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -146,7 +149,7 @@ public class TCPClient {
 			InputStream inp = null;
 			BufferedReader brinp = null;
       
-<<<<<<< HEAD
+
 			try {
 				inp = clientSocket.getInputStream();
 				brinp = new BufferedReader(new InputStreamReader(inp));
@@ -162,41 +165,9 @@ public class TCPClient {
 			raumname = inFromUser.readLine();
 			outToServer.writeBytes(raumname);
 	  
-			new ThreadSend(clientSocket).start();
+			new ThreadSend(clientSocket, Benutzername, raumname).start();
 			new ThreadReceive(clientSocket).start();
-=======
-      try {
-          inp = clientSocket.getInputStream();
-          brinp = new BufferedReader(new InputStreamReader(inp));
-      } 
-      catch (IOException e) {
-          return;
-      }
-      String raumname = brinp.readLine();
-      ArrayList<String> raumliste = (ArrayList<String>) Arrays.asList(raumname.split(";"));
-      for (String name:raumliste) {
-    	  System.out.print(name);
-      }
-      raumname = inFromUser.readLine();
-      outToServer.writeBytes(raumname);
 
-
-		  
-		  new ThreadSend(clientSocket, Benutzername, to).start();
-		  //new ThreadReceive(clientSocket).start();
-
-
-		  
-	 }
-}
-
-	 
-		 
-		 
-		 
-		 
-		 }
->>>>>>> 2e815a7602c6d58680113006c34ba9159db4b807
 		 }
 	}	 
 }	 
