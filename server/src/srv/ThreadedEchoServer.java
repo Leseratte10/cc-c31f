@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class ThreadedEchoServer {
 
 
-    static final int PORT = 1988;
+    static final int PORT = 1980;
     
     static ArrayList<String> benutzer = new ArrayList<String>();
     static ArrayList<Socket> sockets = new ArrayList<Socket>();
@@ -102,13 +102,7 @@ public class ThreadedEchoServer {
 
         while (true) {
             try {
-                if(socket == null) {
-                	System.out.print("Kann nicht über diesen Port Starten!" +'\n');	
-                	System.exit(0);
-                }
-                else {
                 socket = serverSocket.accept();
-                }
             } catch (IOException e) {
                 System.out.println("I/O error: " + e);
             } 

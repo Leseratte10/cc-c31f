@@ -1,15 +1,12 @@
-package client.src.client;
+package client;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-<<<<<<< HEAD
 import java.net.ConnectException;
 import java.net.InetAddress;
-=======
->>>>>>> 2e815a7602c6d58680113006c34ba9159db4b807
 import java.net.Socket;
 import java.net.SocketException;
 import java.text.DateFormat;
