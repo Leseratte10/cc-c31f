@@ -58,11 +58,9 @@ public class EchoThread extends Thread {
                 }
                 
                 LocalDateTime now = LocalDateTime.now();
-                System.out.println("out"+login);
                 if (login) {
                 	Benutzername = line;
                 	login = false;
-                	System.out.println("in"+login);
                 	ThreadedEchoServer.addUser(Benutzername);
                 	String roomlist =ThreadedEchoServer.roomsToString();
                 	out.writeBytes(roomlist+'\n');
@@ -92,7 +90,9 @@ public class EchoThread extends Thread {
             	try {
             		System.out.println("<"+dtf.format(now)+"> "+ThreadedEchoServer.getUser().get(ind)+" just left");
 					ThreadedEchoServer.removeUser(ind);
+					ThreadedEchoServer.removeSocket(socket);
 					ThreadedEchoServer.sendToAll("<"+dft.format(now)+"> "+ThreadedEchoServer.getUser().get(ind)+" just left", socket);
+					this.stop();
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}

@@ -12,8 +12,7 @@ import java.util.ArrayList;
 
 public class ThreadedEchoServer {
 
-
-    static final int PORT = 50000;
+    static final int PORT = 1988;
     
     public static ArrayList<String> benutzer = new ArrayList<String>();
     public static ArrayList<String> passwd = new ArrayList<String>();
@@ -53,7 +52,7 @@ public class ThreadedEchoServer {
     }
     
     public static int findRoom(String roomname) {
-    	for (int i=0;i<rooms.size()-1;i++) {
+    	for (int i=0;i<rooms.size();i++) {
     		if (rooms.get(i).getRoomname().equals(roomname)) {
     			return i;
     		}
@@ -89,6 +88,17 @@ public class ThreadedEchoServer {
     		}
     	}
     }
+    
+    public static void sendToRoom(String line, Socket selfSocket, String room) throws IOException {
+    	DataOutputStream out = null;
+    	int ind = findRoom(room);
+    	for (Socket socket:getRooms().get(ind).getSockets()) {
+    		if ( socket != selfSocket) {
+    			out = new DataOutputStream(socket.getOutputStream());
+    			out.writeBytes(line+'\n');
+    		}
+    	}
+    }
 
 
     public static void main(String args[]) throws IOException {
@@ -99,7 +109,7 @@ public class ThreadedEchoServer {
         try {
             serverSocket = new ServerSocket(PORT);
         } catch (IOException e) {
-            System.out.print("Kann nicht �ber diesen Port Starten!" +'\n');
+            System.out.print("Kann nicht über diesen Port Starten! Oder der Server läuft bereits über diesen Port" +'\n');
             System.exit(0);
 
         }
@@ -127,7 +137,6 @@ public class ThreadedEchoServer {
             
             // new thread for a client
             addSocket(socket);
-            System.out.println("socket initialized");
             new EchoThread(socket).start();
         }
     }

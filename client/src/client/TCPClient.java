@@ -35,10 +35,10 @@ public class TCPClient {
 			java.util.Date now = new java.util.Date(System.currentTimeMillis());
 
 			 String eingabeForm = JOptionPane.showInputDialog("Wähle die Eingabeform: (f)enster oder (c)onsole!");
-			 if (eingabeForm.toUpperCase().equals("F") || eingabeForm.toUpperCase().equals("FENSTER")) {
+			 if (eingabeForm.equalsIgnoreCase("F") || eingabeForm.equalsIgnoreCase("FENSTER")) {
 				 ent = false;
 				 eingabe = 1;
-			 }else if (eingabeForm.toUpperCase().equals("C") || eingabeForm.toUpperCase().equals("CONSOLE")){
+			 }else if (eingabeForm.equalsIgnoreCase("C") || eingabeForm.equalsIgnoreCase("CONSOLE")){
 				 ent = false;
 				 eingabe = 2;
 			 }
@@ -50,9 +50,8 @@ public class TCPClient {
 		      BufferedReader brinp = null;
 			 //Fehlerbehebung von zeile 50 bis 83
 
-			  
 			 try {
-				  clientSocket = new Socket("172.24.0.16", 1988);
+				  clientSocket = new Socket("172.24.0.42", 1988);
 				  outToServer = new DataOutputStream(clientSocket.getOutputStream());
 				  inp = clientSocket.getInputStream();
 		          brinp = new BufferedReader(new InputStreamReader(inp));
@@ -70,108 +69,66 @@ public class TCPClient {
 					  System.exit(1);
 				  }	
 			  }
-			 try {
-				  clientSocket = new Socket("172.24.0.19", 1988);
-			 }
-			 catch(ConnectException i) {
-				  if (eingabe == 1) {
-					  JOptionPane.showMessageDialog(null,"Warnung" + '\n'+ "Kein Aufbau zum Server");
-					  TimeUnit.SECONDS.sleep(30);
-					  System.exit(1);
-				  }
-				  else {
-				  System.out.println("Kein Aufbau zum Server");
-				  TimeUnit.SECONDS.sleep(30);
-				  System.exit(1);
-			  	}
-			 }
 		if(eingabe == 2) {
 			System.out.println("Gib deinen Benutzernamen ein! (Windows-Benutzername wird als Default verwendet.)");
 			  Benutzername = inFromUser.readLine();
-			  
-		  if (Benutzername == "" || Benutzername == "	"|| Benutzername == " ") {
+
+		  if (Benutzername.trim().equals("")) {
+
 			  String userName = System.getProperty("user.name");
 			  Benutzername = userName;
-			  System.out.print("<"+sdf.format(now)+">"+" Dein Benutername ist "+userName+"!"+'\n');//
-		  }	else {
-			  System.out.print("<"+sdf.format(now)+">"+" Dein Benutername ist "+ Benutzername +"!"+'\n'); //
 		  }
-		  	outToServer.writeBytes(Benutzername + '\n');
-		} else {
+		System.out.print("<"+sdf.format(now)+">"+" Dein Benutername ist "+ Benutzername +"!"+'\n'); //
+		  
+		outToServer.writeBytes(Benutzername + '\n');
+		
+		raumname = brinp.readLine();
+	      System.out.print("In welchen der folgenden Räume möchtest du beitreten?");
+	      raumliste =  raumname.split(";");
+	      for (String name:raumliste) {
+	    	  System.out.print(name);
+	      }
+	      raumname = inFromUser.readLine();
+
+	      outToServer.writeBytes(raumname + '\n');
+		} 
+		else if (eingabe == 1){
 			Benutzername = JOptionPane.showInputDialog("Gib deinen Benutzernamen ein! (Windows-Benutzername wird als Default verwendet.)");
 				if ((Benutzername.equals(""))||(Benutzername.equals("	"))|| (Benutzername.equals(" "))) {
 					String userName = System.getProperty("user.name");	
 					Benutzername = userName;
-					JOptionPane.showMessageDialog(null, sdf.format(now) +"Dein Benutername ist "+userName+"!"+'\n');//
 				}
-			 	else {
-			 		JOptionPane.showMessageDialog(null, sdf.format(now) +"Dein Benutername ist "+ Benutzername +"!"+'\n'); //
-			 	}  
-		}
-		    
-		if (eingabe == 1) {
-			
-			  JOptionPane.showInputDialog("In welchen der folgenden Räume möchtest du beitreten?");
-		      
-		      try {
-		          inp = clientSocket.getInputStream();
-		          brinp = new BufferedReader(new InputStreamReader(inp));
-		      } catch (IOException e) {
-		          return;
-		      }
-		      
-		      raumname = brinp.readLine();
-		      raumliste = raumname.split(";");
-		      
+			 	JOptionPane.showMessageDialog(null, sdf.format(now) +"Dein Benutername ist "+ Benutzername +"!"+'\n'); //
+			 	
+			 	outToServer.writeBytes(Benutzername + '\n');
+				
+				JOptionPane.showMessageDialog(null, "In welchen der folgenden Räume möchtest du beitreten?");
+			      
+			      raumname = brinp.readLine();
+			      raumliste = raumname.split(";");
+			      
+			      for (String name:raumliste) {
+			    	  System.out.print(name);
+			      }
+			      raumname = JOptionPane.showInputDialog("Raum");
+			      outToServer.writeBytes(raumname);
+		} else {
+			String userName = System.getProperty("user.name");	
+			Benutzername = userName;
+			System.out.print("<"+sdf.format(now)+">"+" Dein Benutername ist "+ Benutzername +"!"+'\n');
+			raumname = brinp.readLine();
+			System.out.print("In welchen der folgenden Räume möchtest du beitreten?");
+		      raumliste =  raumname.split(";");
 		      for (String name:raumliste) {
 		    	  System.out.print(name);
 		      }
 		      raumname = inFromUser.readLine();
-		      outToServer.writeBytes(raumname);
-		  
-		  String userName = System.getProperty("user.name");	
-		  Benutzername = userName;
-		  System.out.print("<"+sdf.format(now)+">" +" Dein Benutzername ist "+ Benutzername +"!"+'\n');//
-	  }
-	  else {
-		  System.out.print("<"+sdf.format(now)+">" +" Dein Benutzername ist "+ Benutzername +"!"+'\n'); //
-		  }
-	  
-	  	outToServer.writeBytes(Benutzername+ '\n');
 
-      
-      raumname = brinp.readLine();
-      System.out.print("In welchen der folgenden Räume möchtest du beitreten?");
-      raumliste =  raumname.split(";");
-      for (String name:raumliste) {
-    	  System.out.print(name);
-      }
-      raumname = inFromUser.readLine();
+		      outToServer.writeBytes(raumname + '\n');
+		}
 
-      outToServer.writeBytes(raumname + '\n');
-	  
-			System.out.print("In welchen der folgenden Räume möchtest du beitreten?");
-			
-      
-
-			try {
-				inp = clientSocket.getInputStream();
-				brinp = new BufferedReader(new InputStreamReader(inp));
-			} 
-			catch (IOException e) {
-				return;
-			}
-			raumname = brinp.readLine();
-			raumliste = raumname.split(";");
-			for (String name:raumliste) {
-				System.out.print(name);
-			}
-			raumname = inFromUser.readLine();
-			outToServer.writeBytes(raumname);
-	  
 			new ThreadSend(clientSocket, Benutzername, raumname).start();
 			new ThreadReceive(clientSocket).start();
-
 
 		 }
 	}	  
