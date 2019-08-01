@@ -23,18 +23,20 @@ public class TCPClient {
 		  
 		  DataOutputStream outToServer = null;
 		  Socket clientSocket = null;
+	      InputStream inp = null;
+	      BufferedReader brinp = null;
 		  
 		 try {
 			  clientSocket = new Socket("172.24.0.42", 1988);
 			  outToServer = new DataOutputStream(clientSocket.getOutputStream());
+			  inp = clientSocket.getInputStream();
+	          brinp = new BufferedReader(new InputStreamReader(inp));
 		 } 
 		  catch (SocketException e) {
 
-
 					  System.out.println("Kein aufbau zum Server");
 					  TimeUnit.SECONDS.sleep(30);
-					  System.exit(0);
-				
+					  System.exit(0);				
 			  }
 		  
 		  
@@ -57,36 +59,25 @@ public class TCPClient {
 
 		  String userName = System.getProperty("user.name");	
 		  Benutzername = userName;
-		  System.out.print("<"+sdf.format(now)+">" +" Dein Benutername ist "+ Benutzername +"!"+'\n');//
+		  System.out.print("<"+sdf.format(now)+">" +" Dein Benutzername ist "+ Benutzername +"!"+'\n');//
 	  }
 	  else {
-		  System.out.print("<"+sdf.format(now)+">" +" Dein Benutername ist "+ Benutzername +"!"+'\n'); //
+		  System.out.print("<"+sdf.format(now)+">" +" Dein Benutzername ist "+ Benutzername +"!"+'\n'); //
 		  }
 	  
-	  	outToServer.writeBytes(Benutzername); // + '\n'
-	  
-	  System.out.print("In welchen der folgenden Räume möchtest du beitreten?");
-      InputStream inp = null;
-      BufferedReader brinp = null;
+	  	outToServer.writeBytes(Benutzername+ '\n'); // 
+
       
-      try {
-          inp = clientSocket.getInputStream();
-          brinp = new BufferedReader(new InputStreamReader(inp));
-      } 
-      catch (IOException e) {
-          return;
-      }
       String raumname = brinp.readLine();
-      ArrayList<String> raumliste = (ArrayList<String>) Arrays.asList(raumname.split(";"));
+      System.out.print("In welchen der folgenden Räume möchtest du beitreten?");
+      String[] raumliste =  raumname.split(";");
       for (String name:raumliste) {
     	  System.out.print(name);
       }
       raumname = inFromUser.readLine();
-      outToServer.writeBytes(raumname);
+      outToServer.writeBytes(raumname + '\n');
 	  
 		  new ThreadSend(clientSocket).start();
-		  new ThreadReceive(clientSocket).start();
-
-		  
+		  new ThreadReceive(clientSocket).start();		  
 	 }
 }
