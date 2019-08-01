@@ -29,24 +29,35 @@ public class TCPClient {
 		 boolean ent = true;
 		 int eingabe = 2;
 		 String Benutzername;
-		 while (ent) {
+		 
 			 String eingabeForm = JOptionPane.showInputDialog("Wähle die Eingabeform: (f)enster oder (c)onsole!");
-			 if (eingabeForm.contentEquals("f")) {
+			 if (eingabeForm.equals("f")) {
 				 ent = false;
 				 eingabe = 1;
-			 }else if (eingabeForm.contentEquals("c")){
+			 }else if (eingabeForm.equals("c")){
 				 ent = false;
 				 eingabe = 2;
-				
+			 } else if(eingabeForm.equals("console")){
+				 ent = false;
+				 eingabe = 2;
+			 } else if(eingabeForm.equals("fenster")) {
+				 ent = false;
+				 eingabe = 1;
+			 } else if(eingabeForm.equals("Console")){
+				 ent = false;
+				 eingabe = 2;
+			 } else if(eingabeForm.equals("Fenster")) {
+				 ent = false;
+				 eingabe = 1;
 			 }
 			 
-			 }
-		 if (eingabe == 2) {
+		 
 		 
 			  BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
-			  
 			  DataOutputStream outToServer = null;
 			  Socket clientSocket = null;
+			 //Fehlerbehebung von zeile 50 bis 83
+			  
 			  
 			 try {
 				  clientSocket = new Socket("172.24.0.19", 1988);
@@ -55,9 +66,9 @@ public class TCPClient {
 			  catch (SocketException e) {
 	
 				  if (eingabe == 1) {
-						  JOptionPane.showMessageDialog(null,"Kein Aufbau zum Server");
-						  TimeUnit.SECONDS.sleep(30);
-						  System.exit(1);
+					  	JOptionPane.showMessageDialog(null,"Warnung" + '\n'+ "Kein Aufbau zum Server");
+					  	TimeUnit.SECONDS.sleep(30);
+					  	System.exit(1);
 				  }
 				  else {
 					  System.out.println("Kein Aufbau zum Server");
@@ -66,15 +77,13 @@ public class TCPClient {
 				  }
 					
 			  }
-			  
-			  
 			 try {
 				  clientSocket = new Socket("172.24.0.19", 1988);
 	
 			 }
 			 catch(ConnectException i) {
 				  if (eingabe == 1) {
-					  JOptionPane.showMessageDialog(null,"Kein Aufbau zum Server");
+					  JOptionPane.showMessageDialog(null,"Warnung" + '\n'+ "Kein Aufbau zum Server");
 					  TimeUnit.SECONDS.sleep(30);
 					  System.exit(1);
 				  }
@@ -178,4 +187,4 @@ public class TCPClient {
 		 }
 		 
 }
-	 }
+	 
