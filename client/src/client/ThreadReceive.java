@@ -36,8 +36,8 @@ public class ThreadReceive extends Thread {
         
 		java.util.Date now = new java.util.Date(System.currentTimeMillis());
         String line;
-        BigInteger BigPrivateKey = BigInteger.valueOf(1025);
-        BigInteger BigPublicKey2 = BigInteger.valueOf(2047);
+        BigInteger BigPrivateKey = TCPClient.privateKey;//BigInteger.valueOf(1025);
+        BigInteger BigPublicKey2 = BigInteger.valueOf(TCPClient.publicKey2);//BigInteger.valueOf(2047);
         while (true) {
             try {
                 line = brinp.readLine();
@@ -128,6 +128,9 @@ public class ThreadReceive extends Thread {
 		}
 		return anzahl;
 		
+		
+		
 	}
+	
 	
 }
