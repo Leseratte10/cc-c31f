@@ -2,6 +2,7 @@ package srv;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -47,22 +48,39 @@ public class ThreadedEchoServer {
     }
 
 
-    public static void main(String args[]) {
+    public static void main(String args[]) throws IOException {
         ServerSocket serverSocket = null;
         Socket socket = null;
 
         try {
             serverSocket = new ServerSocket(PORT);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.print("Kann nicht über diesen Port Starten!" +'\n');
+            System.exit(0);
 
         }
+/*        try {
+        	serverSocket = new ServerSocket(PORT);
+        }
+        catch(BindException e) {
+        	
+        }
+        
+        Vielleicht Sinnlos!
+*/
         while (true) {
             try {
+                if(socket == null) {
+                	System.out.print("Kann nicht über diesen Port Starten!" +'\n');	
+                	System.exit(0);
+                }
+                else {
                 socket = serverSocket.accept();
+                }
             } catch (IOException e) {
                 System.out.println("I/O error: " + e);
-            }
+            } 
+
             // new thread for a client
             addSocket(socket);
             new EchoThread(socket).start();
