@@ -1,6 +1,9 @@
 package srv;
 
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.BindException;
 import java.net.ServerSocket;
@@ -10,9 +13,10 @@ import java.util.ArrayList;
 public class ThreadedEchoServer {
 
 
-    static final int PORT = 1980;
+    static final int PORT = 50000;
     
-    static ArrayList<String> benutzer = new ArrayList<String>();
+    public static ArrayList<String> benutzer = new ArrayList<String>();
+    public static ArrayList<String> passwd = new ArrayList<String>();
     static ArrayList<Socket> sockets = new ArrayList<Socket>();
     static ArrayList<Room> rooms = new ArrayList<Room>();
     
@@ -99,6 +103,20 @@ public class ThreadedEchoServer {
             System.exit(0);
 
         }
+        
+      //import username list
+        String creatorPath = System.getProperty("user.dir") + "\\usernames.txt";
+        File username = new File(creatorPath);
+        BufferedReader usernameFile = new BufferedReader(new FileReader(username));
+        //String[] content = basefile.split("$");
+       
+        String buffer = usernameFile.readLine();
+        while (buffer != null) {
+        	String[] content = buffer.split("§");
+        	benutzer.add(content[0]);
+        	passwd.add(content[1]);
+        	buffer = usernameFile.readLine();
+        }
 
         while (true) {
             try {
@@ -106,7 +124,7 @@ public class ThreadedEchoServer {
             } catch (IOException e) {
                 System.out.println("I/O error: " + e);
             } 
-
+            
             // new thread for a client
             addSocket(socket);
             System.out.println("socket initialized");
