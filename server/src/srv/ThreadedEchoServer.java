@@ -59,15 +59,7 @@ public class ThreadedEchoServer {
             System.exit(0);
 
         }
-/*        try {
-        	serverSocket = new ServerSocket(PORT);
-        }
-        catch(BindException e) {
-        	
-        }
-        
-        Vielleicht Sinnlos!
-*/
+
         while (true) {
             try {
                 if(socket == null) {

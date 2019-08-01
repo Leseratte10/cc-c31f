@@ -65,6 +65,7 @@ public class EchoThread extends Thread {
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
+            	
             	ThreadedEchoServer.removeSocket(socket);
                 return;
             }
