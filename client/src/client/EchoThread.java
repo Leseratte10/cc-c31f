@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-import client.src.client.Message;
+import client.Message;
 
 public class EchoThread extends Thread {
     protected Socket socket;

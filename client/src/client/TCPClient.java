@@ -35,20 +35,13 @@ public class TCPClient {
 			java.util.Date now = new java.util.Date(System.currentTimeMillis());
 
 			 String eingabeForm = JOptionPane.showInputDialog("Wähle die Eingabeform: (f)enster oder (c)onsole!");
-			 if (eingabeForm.equals("f") || eingabeForm.equals("F")) {
+			 if (eingabeForm.toUpperCase().equals("F") || eingabeForm.toUpperCase().equals("FENSTER")) {
 				 ent = false;
 				 eingabe = 1;
-			 }else if (eingabeForm.equals("c") || eingabeForm.equals("C")){
+			 }else if (eingabeForm.toUpperCase().equals("C") || eingabeForm.toUpperCase().equals("CONSOLE")){
 				 ent = false;
 				 eingabe = 2;
-			 } else if(eingabeForm.equals("console") || eingabeForm.equals("Console")){
-				 ent = false;
-				 eingabe = 2;
-			 } else if(eingabeForm.equals("fenster") || eingabeForm.contentEquals("Fenster")) {
-				 ent = false;
-				 eingabe = 1;
 			 }
-			  
 			  BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
 			  DataOutputStream outToServer = null;
 			  Socket clientSocket = null;
@@ -144,7 +137,7 @@ public class TCPClient {
 		  System.out.print("<"+sdf.format(now)+">" +" Dein Benutzername ist "+ Benutzername +"!"+'\n'); //
 		  }
 	  
-	  	outToServer.writeBytes(Benutzername+ '\n'); // 
+	  	outToServer.writeBytes(Benutzername+ '\n');
 
       
       raumname = brinp.readLine();
