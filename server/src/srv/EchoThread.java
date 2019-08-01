@@ -33,7 +33,8 @@ public class EchoThread extends Thread {
             return;
         }
         String line;
-        Boolean login = false;
+        String room;
+        Boolean login = true;
         String Benutzername;
         
         while (true) {
@@ -41,27 +42,41 @@ public class EchoThread extends Thread {
                 
                 line = brinp.readLine();
                 LocalDateTime now = LocalDateTime.now();
-                if (login == false) {
+                System.out.println("out"+login);
+                if (login) {
                 	Benutzername = line;
-                	login = true;
-                	String text = "Der Benutzer " + Benutzername + " hat sich angemeldet.";
-                	System.out.println("<"+dft.format(now)+"> "+text);
+                	login = false;
+                	System.out.println("in"+login);
+                	ThreadedEchoServer.addUser(Benutzername);
+                	String roomlist =ThreadedEchoServer.roomsToString();
+                	out.writeBytes(roomlist+'\n');
+                	room = brinp.readLine();
+                	
+                	int ind = ThreadedEchoServer.findRoom(room);
+                	
+                	if(ind < 0) {
+                		ThreadedEchoServer.addRoom(room);
+                		ind = ThreadedEchoServer.getRooms().size()-1;
+                	}
+            		ThreadedEchoServer.getRooms().get(ind).addSocket(socket);
+            		ThreadedEchoServer.getRooms().get(ind).addUser(Benutzername);
 
-					ThreadedEchoServer.addUser(Benutzername);
-					ThreadedEchoServer.sendToAll(text);
+                	String text = "Der Benutzer " + Benutzername + " hat Raum "+room+" betreten.";
+                	System.out.println("<"+dft.format(now)+"> "+text);
+					ThreadedEchoServer.sendToAll(text, socket);
                 }
                 else {
                 	System.out.print("<"+dtf.format(now)+"> ");
                     System.out.println(line);
-                    ThreadedEchoServer.sendToAll(line);
+                    ThreadedEchoServer.sendToAll(line, socket);
                 }
             } catch (IOException e) {
             	LocalDateTime now = LocalDateTime.now();
             	int ind = ThreadedEchoServer.getSockets().indexOf(socket);
             	try {
             		System.out.println("<"+dtf.format(now)+"> "+ThreadedEchoServer.getUser().get(ind)+" just left");
-					ThreadedEchoServer.sendToAll("<"+dft.format(now)+"> "+ThreadedEchoServer.getUser().get(ind)+" just left");
 					ThreadedEchoServer.removeUser(ind);
+					ThreadedEchoServer.sendToAll("<"+dft.format(now)+"> "+ThreadedEchoServer.getUser().get(ind)+" just left", socket);
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
