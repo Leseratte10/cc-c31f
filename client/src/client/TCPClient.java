@@ -1,10 +1,11 @@
 package client;
-
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.ConnectException;
+import java.io.IOException;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.text.DateFormat;
@@ -29,7 +30,10 @@ public class TCPClient {
 		 boolean ent = true;
 		 int eingabe = 2;
 		 String Benutzername;
-		 
+		 String raumname;
+		 String[] raumliste;
+			java.util.Date now = new java.util.Date(System.currentTimeMillis());
+
 			 String eingabeForm = JOptionPane.showInputDialog("Wähle die Eingabeform: (f)enster oder (c)onsole!");
 			 if (eingabeForm.equals("f") || eingabeForm.equals("F")) {
 				 ent = false;
@@ -37,32 +41,25 @@ public class TCPClient {
 			 }else if (eingabeForm.equals("c") || eingabeForm.equals("C")){
 				 ent = false;
 				 eingabe = 2;
-			 } else if(eingabeForm.equals("console")){
+			 } else if(eingabeForm.equals("console") || eingabeForm.equals("Console")){
 				 ent = false;
 				 eingabe = 2;
-			 } else if(eingabeForm.equals("fenster")) {
-				 ent = false;
-				 eingabe = 1;
-			 } else if(eingabeForm.equals("Console")){
-				 ent = false;
-				 eingabe = 2;
-			 } else if(eingabeForm.equals("Fenster")) {
+			 } else if(eingabeForm.equals("fenster") || eingabeForm.contentEquals("Fenster")) {
 				 ent = false;
 				 eingabe = 1;
 			 }
-			 
-		 
-		 
+			  
 			  BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
 			  DataOutputStream outToServer = null;
 			  Socket clientSocket = null;
+
 		      InputStream inp = null;
 		      BufferedReader brinp = null;
 			 //Fehlerbehebung von zeile 50 bis 83
-			  
+
 			  
 			 try {
-				  clientSocket = new Socket("172.24.0.19", 1988);
+				  clientSocket = new Socket("172.24.0.16", 1988);
 				  outToServer = new DataOutputStream(clientSocket.getOutputStream());
 				  inp = clientSocket.getInputStream();
 		          brinp = new BufferedReader(new InputStreamReader(inp));
@@ -78,12 +75,10 @@ public class TCPClient {
 					  System.out.println("Kein Aufbau zum Server");
 					  TimeUnit.SECONDS.sleep(30);
 					  System.exit(1);
-				  }
-					
+				  }	
 			  }
 			 try {
 				  clientSocket = new Socket("172.24.0.19", 1988);
-	
 			 }
 			 catch(ConnectException i) {
 				  if (eingabe == 1) {
@@ -97,48 +92,44 @@ public class TCPClient {
 				  System.exit(1);
 			  	}
 			 }
-			
-
-				java.util.Date now = new java.util.Date(System.currentTimeMillis());
-			  
-			  
-			  
 		if(eingabe == 2) {
 			System.out.println("Gib deinen Benutzernamen ein! (Windows-Benutzername wird als Default verwendet.)");
-		
 			  Benutzername = inFromUser.readLine();
+			  
 		  if (Benutzername == "" || Benutzername == "	"|| Benutzername == " ") {
-	
 			  String userName = System.getProperty("user.name");
 			  Benutzername = userName;
 			  System.out.print("<"+sdf.format(now)+">"+" Dein Benutername ist "+userName+"!"+'\n');//
-		  }
-		  else {
+		  }	else {
 			  System.out.print("<"+sdf.format(now)+">"+" Dein Benutername ist "+ Benutzername +"!"+'\n'); //
 		  }
 		  	outToServer.writeBytes(Benutzername + '\n');
-		}
-		else {
+		} else {
 			Benutzername = JOptionPane.showInputDialog("Gib deinen Benutzernamen ein! (Windows-Benutzername wird als Default verwendet.)");
-			if ((Benutzername.equals(""))||(Benutzername.equals("	"))|| (Benutzername.equals(" "))) {
-				String userName = System.getProperty("user.name");	
-				Benutzername = userName;
-				JOptionPane.showMessageDialog(null, sdf.format(now) +"Dein Benutername ist "+userName+"!"+'\n');//
+				if ((Benutzername.equals(""))||(Benutzername.equals("	"))|| (Benutzername.equals(" "))) {
+					String userName = System.getProperty("user.name");	
+					Benutzername = userName;
+					JOptionPane.showMessageDialog(null, sdf.format(now) +"Dein Benutername ist "+userName+"!"+'\n');//
 				}
 			 	else {
 			 		JOptionPane.showMessageDialog(null, sdf.format(now) +"Dein Benutername ist "+ Benutzername +"!"+'\n'); //
-			 	}
-
-				  
+			 	}  
 		}
-		  
-			  
+		    
 		if (eingabe == 1) {
 			
 			  JOptionPane.showInputDialog("In welchen der folgenden Räume möchtest du beitreten?");
-
-		      String raumname = brinp.readLine();
-		      ArrayList<String> raumliste = (ArrayList<String>) Arrays.asList(raumname.split(";"));
+		      
+		      try {
+		          inp = clientSocket.getInputStream();
+		          brinp = new BufferedReader(new InputStreamReader(inp));
+		      } catch (IOException e) {
+		          return;
+		      }
+		      
+		      raumname = brinp.readLine();
+		      raumliste = raumname.split(";");
+		      
 		      for (String name:raumliste) {
 		    	  System.out.print(name);
 		      }
@@ -156,22 +147,38 @@ public class TCPClient {
 	  	outToServer.writeBytes(Benutzername+ '\n'); // 
 
       
-      String raumname = brinp.readLine();
+      raumname = brinp.readLine();
       System.out.print("In welchen der folgenden Räume möchtest du beitreten?");
-      String[] raumliste =  raumname.split(";");
+      raumliste =  raumname.split(";");
       for (String name:raumliste) {
     	  System.out.print(name);
       }
       raumname = inFromUser.readLine();
 
       outToServer.writeBytes(raumname + '\n');
+	  
+			System.out.print("In welchen der folgenden Räume möchtest du beitreten?");
+			
+      
+
+			try {
+				inp = clientSocket.getInputStream();
+				brinp = new BufferedReader(new InputStreamReader(inp));
+			} 
+			catch (IOException e) {
+				return;
+			}
+			raumname = brinp.readLine();
+			raumliste = raumname.split(";");
+			for (String name:raumliste) {
+				System.out.print(name);
+			}
+			raumname = inFromUser.readLine();
+			outToServer.writeBytes(raumname);
+	  
+			new ThreadSend(clientSocket, Benutzername, raumname).start();
+			new ThreadReceive(clientSocket).start();
 
 
-
-		  
-		  new ThreadSend(clientSocket, Benutzername, "ka").start();
-		  new ThreadReceive(clientSocket).start();
 		 }
-		 
-}
-	 
+	}	  

@@ -14,6 +14,7 @@ public class ThreadedEchoServer {
     
     static ArrayList<String> benutzer = new ArrayList<String>();
     static ArrayList<Socket> sockets = new ArrayList<Socket>();
+    static ArrayList<Room> rooms = new ArrayList<Room>();
     
     public static void addUser(String username) {
     	benutzer.add(username); 
@@ -23,8 +24,16 @@ public class ThreadedEchoServer {
     	sockets.add(socket);
     }
     
+    public static void addRoom(String name) {
+    	rooms.add(new Room(name));
+    }
+    
     public static ArrayList<Socket> getSockets(){
     	return sockets;
+    }
+    
+    public static ArrayList<Room> getRooms(){
+    	return rooms;
     }
     
     public static ArrayList<String> getUser(){
@@ -39,11 +48,41 @@ public class ThreadedEchoServer {
     	benutzer.remove(ind);
     }
     
-    public static void sendToAll(String line) throws IOException {
+    public static int findRoom(String roomname) {
+    	for (int i=0;i<rooms.size()-1;i++) {
+    		if (rooms.get(i).getRoomname().equals(roomname)) {
+    			return i;
+    		}
+    	}
+    	return -1;
+    }
+    
+    public static String roomsToString() {
+    	String s = "";
+    	for (Room room:rooms) {
+    		s += room.getRoomname();
+    		s += ";";
+    	}
+    	return s;
+    }
+    
+    public static boolean roomExists(String name) {
+    	boolean exists = false;
+    	for (Room room:rooms) {
+    		if(room.getRoomname().equals(name)) {
+    			exists = true;
+    		}
+    	}
+    	return exists;
+    }
+    
+    public static void sendToAll(String line, Socket selfSocket) throws IOException {
         DataOutputStream out = null;
-    	for (int i=0; i<sockets.size() ; i++ ) {
-    		out = new DataOutputStream(sockets.get(i).getOutputStream());
-    		out.writeBytes(line+'\n');
+    	for (Socket socket:sockets) {
+    		if ( socket != selfSocket) {
+    			out = new DataOutputStream(socket.getOutputStream());
+    			out.writeBytes(line+'\n');
+    		}
     	}
     }
 
@@ -51,6 +90,7 @@ public class ThreadedEchoServer {
     public static void main(String args[]) throws IOException {
         ServerSocket serverSocket = null;
         Socket socket = null;
+        addRoom("global");
 
         try {
             serverSocket = new ServerSocket(PORT);
@@ -59,15 +99,7 @@ public class ThreadedEchoServer {
             System.exit(0);
 
         }
-/*        try {
-        	serverSocket = new ServerSocket(PORT);
-        }
-        catch(BindException e) {
-        	
-        }
-        
-        Vielleicht Sinnlos!
-*/
+
         while (true) {
             try {
                 if(socket == null) {
@@ -83,6 +115,7 @@ public class ThreadedEchoServer {
 
             // new thread for a client
             addSocket(socket);
+            System.out.println("socket initialized");
             new EchoThread(socket).start();
         }
     }
