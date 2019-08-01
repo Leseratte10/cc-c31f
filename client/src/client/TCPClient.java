@@ -73,7 +73,7 @@ public class TCPClient {
 			System.out.println("Gib deinen Benutzernamen ein! (Windows-Benutzername wird als Default verwendet.)");
 			  Benutzername = inFromUser.readLine();
 			  
-		  if (Benutzername == "" || Benutzername == "	"|| Benutzername == " ") {
+		  if (Benutzername.trim().equals("")) {
 			  String userName = System.getProperty("user.name");
 			  Benutzername = userName;
 		  }
