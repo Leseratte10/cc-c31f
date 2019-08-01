@@ -64,6 +64,7 @@ public class EchoThread extends Thread {
                 	String text = "Der Benutzer " + Benutzername + " hat Raum "+room+" betreten.";
                 	System.out.println("<"+dft.format(now)+"> "+text);
 					ThreadedEchoServer.sendToAll(text, socket);
+					System.out.println(ThreadedEchoServer.roomsToString());
                 }
                 else {
                 	System.out.print("<"+dtf.format(now)+"> ");
