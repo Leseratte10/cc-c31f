@@ -49,7 +49,7 @@ public class ThreadedEchoServer {
     }
     
     public static int findRoom(String roomname) {
-    	for (int i=0;i<rooms.size()-1;i++) {
+    	for (int i=0;i<rooms.size();i++) {
     		if (rooms.get(i).getRoomname().equals(roomname)) {
     			return i;
     		}
@@ -85,6 +85,17 @@ public class ThreadedEchoServer {
     		}
     	}
     }
+    
+    public static void sendToRoom(String line, Socket selfSocket, String room) throws IOException {
+    	DataOutputStream out = null;
+    	int ind = findRoom(room);
+    	for (Socket socket:getRooms().get(ind).getSockets()) {
+    		if ( socket != selfSocket) {
+    			out = new DataOutputStream(socket.getOutputStream());
+    			out.writeBytes(line+'\n');
+    		}
+    	}
+    }
 
 
     public static void main(String args[]) throws IOException {
@@ -109,7 +120,6 @@ public class ThreadedEchoServer {
 
             // new thread for a client
             addSocket(socket);
-            System.out.println("socket initialized");
             new EchoThread(socket).start();
         }
     }
