@@ -50,7 +50,6 @@ public class TCPClient {
 		      BufferedReader brinp = null;
 			 //Fehlerbehebung von zeile 50 bis 83
 
-			  
 			 try {
 				  clientSocket = new Socket("172.24.0.42", 1988);
 				  outToServer = new DataOutputStream(clientSocket.getOutputStream());
@@ -104,8 +103,6 @@ public class TCPClient {
 				
 				JOptionPane.showMessageDialog(null, "In welchen der folgenden Räume möchtest du beitreten?");
 			      
-			      
-			      
 			      raumname = brinp.readLine();
 			      raumliste = raumname.split(";");
 			      
@@ -128,12 +125,9 @@ public class TCPClient {
 
 		      outToServer.writeBytes(raumname + '\n');
 		}
-		    
-		
-	  
+
 			new ThreadSend(clientSocket, Benutzername, raumname).start();
 			new ThreadReceive(clientSocket).start();
-
 
 		 }
 	}	  

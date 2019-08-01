@@ -25,15 +25,15 @@ public class Message {
 	private String message;
 	private String time;
 	private String separator = "§";
-	private String type;
+	private int type;
 	
 	
 	
 	/*Types:
-	 * TextMessage = "1"
-	 * File = "2"
+	 * TextMessage = 1
+	 * File = 2
 	 */
-	public Message(String from, String to, String message, String type) {
+	public Message(String from, String to, String message, int type) {
 		this.from = from;
 		this.to = to;
 		this.message = message;
@@ -60,7 +60,7 @@ public class Message {
 		this.to = list[0];
 		this.from = list[1];
 		this.time = list[2];
-		this.type = list[3];
+		this.type = Integer.parseInt(list[3]);
 		this.message = list[4];
 
 	}
@@ -70,7 +70,7 @@ public class Message {
 		this.to = list[0];
 		this.from = list[1];
 		this.time = list[2];
-		this.type = list[3];
+		this.type = Integer.parseInt(list[3]);
 		this.message = list[4];
 	}
 	
@@ -89,7 +89,7 @@ public class Message {
 	}
 	
 	public boolean createFile() {
-		if(type.equals("2")) {
+		if(type == 2) {
 			try {
 				this.recieveFile(message);
 			} catch (IOException e) {
