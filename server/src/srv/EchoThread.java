@@ -74,7 +74,9 @@ public class EchoThread extends Thread {
             	try {
             		System.out.println("<"+dtf.format(now)+"> "+ThreadedEchoServer.getUser().get(ind)+" just left");
 					ThreadedEchoServer.removeUser(ind);
+					ThreadedEchoServer.removeSocket(socket);
 					ThreadedEchoServer.sendToAll("<"+dft.format(now)+"> "+ThreadedEchoServer.getUser().get(ind)+" just left", socket);
+					this.stop();
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
