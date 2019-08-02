@@ -94,6 +94,7 @@ public class EchoThread extends Thread {
                 
                 LocalDateTime now = LocalDateTime.now();
                 if (login) {
+                	line = decode(line, ServerPrivateKey, ServerPublicKey2);
                 	Benutzername = line;
                 	login = false;
                 	ThreadedEchoServer.addUser(Benutzername);
