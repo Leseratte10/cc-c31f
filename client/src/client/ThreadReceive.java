@@ -71,7 +71,6 @@ public class ThreadReceive extends Thread {
 			if (newBuchstabe < 32) {
 				newBuchstabe += 93; 
 			}
-			System.out.println(newBuchstabe);
 			char ausgabe = (char) newBuchstabe;
 			j +=1;
 			endwort = endwort + ausgabe;
