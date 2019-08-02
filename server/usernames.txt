@@ -1,0 +1,9 @@
+benutzer1§passwd
+benutzer2§passwd
+benutzer3§passwd
+benutzer4§passwd
+benutzer5§passwd
+benutzer6§passwd
+benutzer7§passwd
+benutzer8§passwd
+benutzer9§passwd

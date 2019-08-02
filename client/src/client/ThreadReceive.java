@@ -47,13 +47,13 @@ public class ThreadReceive extends Thread {
                 if (onDecode == 1) {
                 line =zahlfinder(line, BigPrivateKey, BigPublicKey2);
                 }
-                System.out.println("<"+sdf.format(now)+">" +" "+line);
+                Message message = new Message(line);
+                System.out.println(message.getTime() + " | " + message.getUsername() + ": " + message.getText());
             }
             catch(SocketException e) {
 				System.out.println('\n'+ANSI_RED+"Der Server wurde geschlossen oder die Connection wurde abgebrochen!");
 				return;
             } catch (IOException e) {
-				// TODO Auto-generated catch block
 				System.out.println('\n'+ANSI_RED+"Der Server wurde geschlossen oder die Connection wurde abgebrochen!");
 				return;
 			}
