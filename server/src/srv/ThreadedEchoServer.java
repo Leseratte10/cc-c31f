@@ -1,134 +1,125 @@
-package client;
-import java.io.BufferedReader;
+package srv;
+
 import java.io.DataOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.ConnectException;
 import java.io.IOException;
-import java.net.InetAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
-import javax.swing.JOptionPane;
-import java.time.LocalDateTime;
 
-public class TCPClient {
-	static boolean running = true;
-    private static final DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-	public static final String ANSI_BLUE = "\u001B[34m";
-	public static final String ANSI_RED = "\u001B[31m";
-	public static final String ANSI_RESET = "\u001B[0m";
-	public static final String ANSI_GREEN = "\u001B[32m";
-	
-	
-	 public static void main(String argv[]) throws Exception {
+public class ThreadedEchoServer {
 
-		 boolean ent = true;
-		 int eingabe = 2;
-		 String Benutzername;
-		 String raumname;
-		 String[] raumliste;
-			java.util.Date now = new java.util.Date(System.currentTimeMillis());
 
-			 String eingabeForm = JOptionPane.showInputDialog("Wähle die Eingabeform: (f)enster oder (c)onsole!");
-			 if (eingabeForm.equalsIgnoreCase("F") || eingabeForm.equalsIgnoreCase("FENSTER")) {
-				 ent = false;
-				 eingabe = 1;
-			 }else if (eingabeForm.equalsIgnoreCase("C") || eingabeForm.equalsIgnoreCase("CONSOLE")){
-				 ent = false;
-				 eingabe = 2;
-			 }
-			  BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
-			  DataOutputStream outToServer = null;
-			  Socket clientSocket = null;
+    static final int PORT = 1988;
+    
+    static ArrayList<String> benutzer = new ArrayList<String>();
+    static ArrayList<Socket> sockets = new ArrayList<Socket>();
+    static ArrayList<Room> rooms = new ArrayList<Room>();
+    
+    public static void addUser(String username) {
+    	benutzer.add(username); 
+    }
+    
+    public static void addSocket(Socket socket) {
+    	sockets.add(socket);
+    }
+    
+    public static void addRoom(String name) {
+    	rooms.add(new Room(name));
+    }
+    
+    public static ArrayList<Socket> getSockets(){
+    	return sockets;
+    }
+    
+    public static ArrayList<Room> getRooms(){
+    	return rooms;
+    }
+    
+    public static ArrayList<String> getUser(){
+    	return benutzer;
+    }
+    
+    public static void removeSocket(Socket socket) {
+    	sockets.remove(socket);
+    }
+    
+    public static void removeUser(int ind) {
+    	benutzer.remove(ind);
+    }
+    
+    public static int findRoom(String roomname) {
+    	for (int i=0;i<rooms.size();i++) {
+    		if (rooms.get(i).getRoomname().equals(roomname)) {
+    			return i;
+    		}
+    	}
+    	return -1;
+    }
+    
+    public static String roomsToString() {
+    	String s = "";
+    	for (Room room:rooms) {
+    		s += room.getRoomname();
+    		s += ";";
+    	}
+    	return s;
+    }
+    
+    public static boolean roomExists(String name) {
+    	boolean exists = false;
+    	for (Room room:rooms) {
+    		if(room.getRoomname().equals(name)) {
+    			exists = true;
+    		}
+    	}
+    	return exists;
+    }
+    
+    public static void sendToAll(String line, Socket selfSocket) throws IOException {
+        DataOutputStream out = null;
+    	for (Socket socket:sockets) {
+    		if ( socket != selfSocket) {
+    			out = new DataOutputStream(socket.getOutputStream());
+    			out.writeBytes(line+'\n');
+    		}
+    	}
+    }
+    
+    public static void sendToRoom(String line, Socket selfSocket, String room) throws IOException {
+    	DataOutputStream out = null;
+    	int ind = findRoom(room);
+    	for (Socket socket:getRooms().get(ind).getSockets()) {
+    		if ( socket != selfSocket) {
+    			out = new DataOutputStream(socket.getOutputStream());
+    			out.writeBytes(line+'\n');
+    		}
+    	}
+    }
 
-		      InputStream inp = null;
-		      BufferedReader brinp = null;
-			 //Fehlerbehebung von zeile 50 bis 83
 
-			 try {
-				  clientSocket = new Socket("172.24.0.42", 1988);
-				  outToServer = new DataOutputStream(clientSocket.getOutputStream());
-				  inp = clientSocket.getInputStream();
-		          brinp = new BufferedReader(new InputStreamReader(inp));
-			 } 
-			  catch (SocketException e) {
-	
-				  if (eingabe == 1) {
-					  	JOptionPane.showMessageDialog(null,"Warnung" + '\n'+ "Kein Aufbau zum Server");
-					  	TimeUnit.SECONDS.sleep(30);
-					  	System.exit(1);
-				  }
-				  else {
-					  System.out.println("Kein Aufbau zum Server");
-					  TimeUnit.SECONDS.sleep(30);
-					  System.exit(1);
-				  }	
-			  }
-		if(eingabe == 2) {
-			System.out.println("Gib deinen Benutzernamen ein! (Windows-Benutzername wird als Default verwendet.)");
-			  Benutzername = inFromUser.readLine();
+    public static void main(String args[]) throws IOException {
+        ServerSocket serverSocket = null;
+        Socket socket = null;
+        addRoom("global");
 
-		  if (Benutzername.trim().equals("")) {
+        try {
+            serverSocket = new ServerSocket(PORT);
+        } catch (IOException e) {
+            System.out.print("Kann nicht über diesen Port Starten!" +'\n');
+            System.exit(0);
 
-			  String userName = System.getProperty("user.name");
-			  Benutzername = userName;
-		  }
-		System.out.print("<"+sdf.format(now)+">"+" Dein Benutername ist "+ Benutzername +"!"+'\n'); //
-		  
-		outToServer.writeBytes(Benutzername + '\n');
-		
-		raumname = brinp.readLine();
-	      System.out.print("In welchen der folgenden Räume möchtest du beitreten?");
-	      raumliste =  raumname.split(";");
-	      for (String name:raumliste) {
-	    	  System.out.print(name);
-	      }
-	      raumname = inFromUser.readLine();
+        }
 
-	      outToServer.writeBytes(raumname + '\n');
-		} 
-		else if (eingabe == 1){
-			Benutzername = JOptionPane.showInputDialog("Gib deinen Benutzernamen ein! (Windows-Benutzername wird als Default verwendet.)");
-				if ((Benutzername.equals(""))||(Benutzername.equals("	"))|| (Benutzername.equals(" "))) {
-					String userName = System.getProperty("user.name");	
-					Benutzername = userName;
-				}
-			 	JOptionPane.showMessageDialog(null, sdf.format(now) +"Dein Benutername ist "+ Benutzername +"!"+'\n'); //
-			 	
-			 	outToServer.writeBytes(Benutzername + '\n');
-				
-				JOptionPane.showMessageDialog(null, "In welchen der folgenden Räume möchtest du beitreten?");
-			      
-			      raumname = brinp.readLine();
-			      raumliste = raumname.split(";");
-			      
-			      for (String name:raumliste) {
-			    	  System.out.print(name);
-			      }
-			      raumname = JOptionPane.showInputDialog("Raum");
-			      outToServer.writeBytes(raumname);
-		} else {
-			String userName = System.getProperty("user.name");	
-			Benutzername = userName;
-			System.out.print("<"+sdf.format(now)+">"+" Dein Benutername ist "+ Benutzername +"!"+'\n');
-			raumname = brinp.readLine();
-			System.out.print("In welchen der folgenden Räume möchtest du beitreten?");
-		      raumliste =  raumname.split(";");
-		      for (String name:raumliste) {
-		    	  System.out.print(name);
-		      }
-		      raumname = inFromUser.readLine();
+        while (true) {
+            try {
+                socket = serverSocket.accept();
+            } catch (IOException e) {
+                System.out.println("I/O error: " + e);
+            } 
 
-		      outToServer.writeBytes(raumname + '\n');
-		}
-
-			new ThreadSend(clientSocket, Benutzername, raumname).start();
-			new ThreadReceive(clientSocket).start();
-
-		 }
-	}	
+            // new thread for a client
+            addSocket(socket);
+            new EchoThread(socket).start();
+        }
+    }
+}
