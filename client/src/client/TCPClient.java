@@ -93,7 +93,6 @@ public class TCPClient {
 		  
 		Benutzername = ThreadSend.codierung(Benutzername, ServerPublicKey1, ServerPublicKey2);
 			  	  outToServer.writeBytes(Benutzername + '\n');
-			  	  System.out.println("send");
 		
 		raumname = brinp.readLine();
 	      System.out.println("In welchen der folgenden Raeume moechtest du beitreten?");

@@ -53,20 +53,26 @@ public class EchoThread extends Thread {
         Boolean login = true;
         String Benutzername;
         Message message;
+        try {
+			
+	        String tempPublicKey1 = brinp.readLine();
+	        String tempPublicKey2 = brinp.readLine();               
+	        Integer publicKey1 = Integer.parseInt(tempPublicKey1);
+	        Integer publicKey2 = Integer.parseInt(tempPublicKey2);
+	        SocketKeys user = new SocketKeys(socket, publicKey1, publicKey2);
+	        ThreadedEchoServer.userList.add(user);
+	        out.writeInt(ThreadedEchoServer.keys.get(1));
+	        out.writeInt(ThreadedEchoServer.keys.get(2));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
         
         
         while (true) {
             try {
-                line = brinp.readLine();
-                line = decode(line, ServerPrivateKey, ServerPublicKey2);
-                String tempPublicKey1 = brinp.readLine();
-                String tempPublicKey2 = brinp.readLine();               
-                Integer publicKey1 = Integer.parseInt(tempPublicKey1);
-                Integer publicKey2 = Integer.parseInt(tempPublicKey2);
-                SocketKeys user = new SocketKeys(socket, publicKey1, publicKey2);
-                ThreadedEchoServer.userList.add(user);
-                out.writeInt(ThreadedEchoServer.keys.get(1));
-                out.writeInt(ThreadedEchoServer.keys.get(2));
+            	line = brinp.readLine();
+    			line = decode(line, ServerPrivateKey, ServerPublicKey2);
                 
                 if(login) {
 	                for (int i = 0; i < ThreadedEchoServer.benutzer.size();  i++) {
