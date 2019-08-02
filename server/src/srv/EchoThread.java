@@ -82,7 +82,7 @@ public class EchoThread extends Thread {
                 }
                 else {
                 	message = new Message(line);
-                	System.out.print("<"+message.getTime()+"> ");
+                	System.out.print("<"+message.getTime()+"> " );
                     System.out.println(message.getText());
                     ThreadedEchoServer.sendToRoom(message.getOutputString(), socket, message.getEmpfänger());
                 }
