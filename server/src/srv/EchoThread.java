@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
 
 public class EchoThread extends Thread {
     protected Socket socket;
@@ -30,7 +29,6 @@ public class EchoThread extends Thread {
         InputStream inp = null;
         BufferedReader brinp = null;
         DataOutputStream out = null;
-        int zahl = 1;
         try {
             inp = socket.getInputStream();
             brinp = new BufferedReader(new InputStreamReader(inp));
@@ -54,6 +52,7 @@ public class EchoThread extends Thread {
         String room;
         Boolean login = true;
         String Benutzername;
+        Message message;
         
         
         while (true) {
@@ -72,16 +71,33 @@ public class EchoThread extends Thread {
                 out.writeInt(ThreadedEchoServer.keys.get(1));
                 out.writeInt(ThreadedEchoServer.keys.get(2));
                 
+                if(login) {
+	                for (int i = 0; i < ThreadedEchoServer.benutzer.size();  i++) {
+	                	if (line.equals(ThreadedEchoServer.benutzer.get(i))) {
+	                		line = brinp.readLine();
+							line = decode(line, ServerPrivateKey, ServerPublicKey2);
+	                		if(line.equals(ThreadedEchoServer.passwd.get(i))) {
+	                			login = false;
+	                		}else {
+	                			
+	                		}
+	                		
+	                	}
+	                	else {
+	                		
+	                	}
+	                }
+                }
+                
                 LocalDateTime now = LocalDateTime.now();
-                System.out.println("out"+login);
                 if (login) {
                 	Benutzername = line;
                 	login = false;
-                	System.out.println("in"+login);
                 	ThreadedEchoServer.addUser(Benutzername);
                 	String roomlist =ThreadedEchoServer.roomsToString();
                 	out.writeBytes(roomlist+'\n');
                 	room = brinp.readLine();
+					room = decode(room, ServerPrivateKey, ServerPublicKey2);
                 	
                 	int ind = ThreadedEchoServer.findRoom(room);
                 	
@@ -95,12 +111,12 @@ public class EchoThread extends Thread {
                 	String text = "Der Benutzer " + Benutzername + " hat Raum "+room+" betreten.";
                 	System.out.println("<"+dft.format(now)+"> "+text);
 					ThreadedEchoServer.sendToAll(text, socket);
-					System.out.println(ThreadedEchoServer.roomsToString());
                 }
                 else {
-                	System.out.print("<"+dtf.format(now)+"> ");
-                    System.out.println(line);
-                    ThreadedEchoServer.sendToAll(line, socket);
+                	message = new Message(line);
+                	System.out.print("<"+message.getTime()+"> ");
+                    System.out.println(message.getUsername()+": "+message.getText()+" to "+message.getEmpfänger());
+                    ThreadedEchoServer.sendToRoom(message.getOutputString(), socket, message.getEmpfänger());
                 }
             } catch (IOException e) {
             	e.printStackTrace();
@@ -108,11 +124,15 @@ public class EchoThread extends Thread {
             	LocalDateTime now = LocalDateTime.now();
             	int ind = ThreadedEchoServer.getSockets().indexOf(socket);
             	try {
-            		System.out.println("<"+dtf.format(now)+"> "+ThreadedEchoServer.getUser().get(ind)+" just left");
+            		String User = ThreadedEchoServer.getUser().get(ind);
+            		System.out.println("<"+dtf.format(now)+"> "+User+" just left");
 					ThreadedEchoServer.removeUser(ind);
-					ThreadedEchoServer.sendToAll("<"+dft.format(now)+"> "+ThreadedEchoServer.getUser().get(ind)+" just left", socket);
+					ThreadedEchoServer.removeSocket(socket);
+					ThreadedEchoServer.sendToAll("<"+dft.format(now)+"> "+User+" just left", socket);
+					this.stop();
 				} catch (IOException e1) {
-					e1.printStackTrace();
+					//e1.printStackTrace();
+					System.out.println(ThreadedEchoServer.getUser().get(ind)+" just left" + socket + " left.");
 				}
             	
             	ThreadedEchoServer.removeSocket(socket);

@@ -1,4 +1,4 @@
-package client;
+package srv;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;

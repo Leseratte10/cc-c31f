@@ -1,6 +1,9 @@
 package srv;
 
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.BindException;
@@ -9,12 +12,13 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Random;
 
+
 public class ThreadedEchoServer {
 
-
-    static final int PORT = 1980;
+    static final int PORT = 1988;
     
-    static ArrayList<String> benutzer = new ArrayList<String>();
+    public static ArrayList<String> benutzer = new ArrayList<String>();
+    public static ArrayList<String> passwd = new ArrayList<String>();
     static ArrayList<Socket> sockets = new ArrayList<Socket>();
     static ArrayList<Room> rooms = new ArrayList<Room>();
     public static ArrayList <SocketKeys> userList = new ArrayList();
@@ -54,7 +58,7 @@ public class ThreadedEchoServer {
     }
     
     public static int findRoom(String roomname) {
-    	for (int i=0;i<rooms.size()-1;i++) {
+    	for (int i=0;i<rooms.size();i++) {
     		if (rooms.get(i).getRoomname().equals(roomname)) {
     			return i;
     		}
@@ -90,6 +94,17 @@ public class ThreadedEchoServer {
     		}
     	}
     }
+    
+    public static void sendToRoom(String line, Socket selfSocket, String room) throws IOException {
+    	DataOutputStream out = null;
+    	int ind = findRoom(room);
+    	for (Socket socket:getRooms().get(ind).getSockets()) {
+    		if ( socket != selfSocket) {
+    			out = new DataOutputStream(socket.getOutputStream()); 
+    			out.writeBytes(line+'\n');
+    		}
+    	}
+    }
 
 
     public static void main(String args[]) throws IOException {
@@ -102,9 +117,23 @@ public class ThreadedEchoServer {
         try {
             serverSocket = new ServerSocket(PORT);
         } catch (IOException e) {
-            System.out.print("Kann nicht über diesen Port Starten!" +'\n');
+            System.out.print("Kann nicht Über diesen Port Starten! Oder der Server lÃ¤uft bereits Ã¼ber diesen Port" +'\n');
             System.exit(0);
 
+        }
+        
+      //import username list
+        String creatorPath = System.getProperty("user.dir") + "\\usernames.txt";
+        File username = new File(creatorPath);
+        BufferedReader usernameFile = new BufferedReader(new FileReader(username));
+        //String[] content = basefile.split("$");
+       
+        String buffer = usernameFile.readLine();
+        while (buffer != null) {
+        	String[] content = buffer.split("§");
+        	benutzer.add(content[0]);
+        	passwd.add(content[1]);
+        	buffer = usernameFile.readLine();
         }
 
         while (true) {
@@ -113,10 +142,9 @@ public class ThreadedEchoServer {
             } catch (IOException e) {
                 System.out.println("I/O error: " + e);
             } 
-
+            
             // new thread for a client
             addSocket(socket);
-            System.out.println("socket initialized");
             new EchoThread(socket).start();
         }
     }

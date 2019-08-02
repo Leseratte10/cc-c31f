@@ -1,7 +1,6 @@
 package client;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -36,8 +35,8 @@ public class ThreadReceive extends Thread {
         
 		java.util.Date now = new java.util.Date(System.currentTimeMillis());
         String line;
-        BigInteger BigPrivateKey = BigInteger.valueOf(1025);
-        BigInteger BigPublicKey2 = BigInteger.valueOf(2047);
+        BigInteger BigPrivateKey = TCPClient.privateKey;//BigInteger.valueOf(1025);
+        BigInteger BigPublicKey2 = BigInteger.valueOf(TCPClient.publicKey2);//BigInteger.valueOf(2047);
         while (true) {
             try {
                 line = brinp.readLine();
@@ -45,7 +44,7 @@ public class ThreadReceive extends Thread {
                 Scanner sDecode = new Scanner(System.in);
                 int onDecode = sDecode.nextInt();
                 if (onDecode == 1) {
-                line =zahlfinder(line, BigPrivateKey, BigPublicKey2);
+                	line =zahlfinder(line, BigPrivateKey, BigPublicKey2);
                 }
                 System.out.println("<"+sdf.format(now)+">" +" "+line);
             }
@@ -128,6 +127,9 @@ public class ThreadReceive extends Thread {
 		}
 		return anzahl;
 		
+		
+		
 	}
+	
 	
 }
