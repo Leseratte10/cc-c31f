@@ -42,6 +42,7 @@ public class TCPClient {
 
 			 try {
 				  clientSocket = new Socket("172.24.0.42", 1988);
+
 				  outToServer = new DataOutputStream(clientSocket.getOutputStream());
 				  inp = clientSocket.getInputStream();
 		          brinp = new BufferedReader(new InputStreamReader(inp));
@@ -83,24 +84,19 @@ public class TCPClient {
 	      outToServer.writeBytes(raumname + '\n');
 		} 
 		else if (eingabe == 1){
+
 			Benutzername = JOptionPane.showInputDialog("Gib deinen Benutzernamen ein! (Windows-Benutzername wird als Default verwendet.)");
 			if (Benutzername.trim().equals("")) {
 					String userName = System.getProperty("user.name");	
 					Benutzername = userName;
 				}
-			 	JOptionPane.showMessageDialog(null, sdf.format(now) +"Dein Benutername ist "+ Benutzername +"!"+'\n'); //
+			 	JOptionPane.showMessageDialog(null, "<"+sdf.format(now)+">" +" Dein Benutername ist "+ Benutzername +"!"+'\n'); //
 			 	
 			 	outToServer.writeBytes(Benutzername + '\n');
-				
-				JOptionPane.showMessageDialog(null, "In welchen der folgenden Raeume moechtest du beitreten?");
-			      
 			      raumname = brinp.readLine();
 			      raumliste = raumname.split(";");
+			 	raumname = JOptionPane.showInputDialog(null, "In welchen der folgenden Räume möchtest du beitreten?" + '\n' + "Diese Räume gibt es bereits:" + '\n' + raumliste );
 			      
-			      for (String name:raumliste) {
-			    	  System.out.print(name);
-			      }
-			      raumname = JOptionPane.showInputDialog("Raum");
 			      outToServer.writeBytes(raumname);
 		} else {
 			String userName = System.getProperty("user.name");	
