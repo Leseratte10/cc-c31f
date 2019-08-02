@@ -138,8 +138,7 @@ public class TCPClient {
 			new ThreadSend(clientSocket, Benutzername, raumname).start();
 			new ThreadReceive(clientSocket).start();
 
-		 }
-	}	
+		 }	
 	public static ArrayList<Integer> primzahlGenerator() {
 		ArrayList <Integer> primzahlArray = new ArrayList<Integer>();
 		ArrayList <Integer> ausgabenArray = new ArrayList<Integer>();
