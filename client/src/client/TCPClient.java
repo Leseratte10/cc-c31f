@@ -102,6 +102,7 @@ public class TCPClient {
 	    	  System.out.println(name);
 	      }
 	      raumname = inFromUser.readLine();
+	      raumname = ThreadSend.codierung(raumname, ServerPublicKey1, ServerPublicKey2);
 
 	      outToServer.writeBytes(raumname + '\n');
 		} 
