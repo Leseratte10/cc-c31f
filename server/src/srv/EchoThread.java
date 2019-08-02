@@ -36,6 +36,7 @@ public class EchoThread extends Thread {
         String room;
         Boolean login = true;
         String Benutzername;
+        Message message;
         
         while (true) {
             try {
@@ -80,9 +81,10 @@ public class EchoThread extends Thread {
 					ThreadedEchoServer.sendToAll(text, socket);
                 }
                 else {
-                	System.out.print("<"+dtf.format(now)+"> ");
-                    System.out.println(line);
-                    ThreadedEchoServer.sendToAll(line, socket);
+                	message = new Message(line);
+                	System.out.print("<"+message.getTime()+"> ");
+                    System.out.println(message.getText());
+                    ThreadedEchoServer.sendToRoom(message.getOutputString(), socket, message.getEmpfänger());
                 }
             } catch (IOException e) {
             	LocalDateTime now = LocalDateTime.now();
