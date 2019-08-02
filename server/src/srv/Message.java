@@ -72,7 +72,7 @@ public class Message {
 	}
 	
 	public String getOutputString() {
-		return (to + separator + from + separator + time  + separator + type + separator + message);
+		return (to + " " + from + " " + time  + " " + type + " " + message);
 	}
 	
 	public void updateOutputStream(DataOutputStream stream) {
