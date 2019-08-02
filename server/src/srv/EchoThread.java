@@ -57,11 +57,8 @@ public class EchoThread extends Thread {
         
         while (true) {
             try {
-            	System.out.println("1");
                 line = brinp.readLine();
-                System.out.println("2");
                 line = decode(line, ServerPrivateKey, ServerPublicKey2);
-                System.out.println(line);
                 String tempPublicKey1 = brinp.readLine();
                 String tempPublicKey2 = brinp.readLine();               
                 Integer publicKey1 = Integer.parseInt(tempPublicKey1);
@@ -162,7 +159,7 @@ public class EchoThread extends Thread {
 			if (newBuchstabe < 32) {
 				newBuchstabe += 93; 
 			}
-			System.out.println(newBuchstabe);
+			//System.out.println(newBuchstabe);
 			char ausgabe = (char) newBuchstabe;
 			j +=1;
 			endwort = endwort + ausgabe;

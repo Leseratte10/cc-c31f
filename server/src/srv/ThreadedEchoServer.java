@@ -235,14 +235,14 @@ public class ThreadedEchoServer {
 		}
 		System.out.println(primzahlArray);
 		Random rand = new Random();
-		int randomPrimzahl1 = rand.nextInt(19);
-		int randomPrimzahl2 = rand.nextInt(19);
+		int randomPrimzahl1 = rand.nextInt(13);
+		int randomPrimzahl2 = rand.nextInt(13);
 		while (randomPrimzahl1 == randomPrimzahl2) {
-			randomPrimzahl2 = rand.nextInt(19);
+			randomPrimzahl2 = rand.nextInt(13);
 		}
-		int randomPrimzahl3 = rand.nextInt(19);
+		int randomPrimzahl3 = rand.nextInt(13);
 		while ((randomPrimzahl3 == randomPrimzahl2) || (randomPrimzahl3 == randomPrimzahl1)) {
-			randomPrimzahl3 = rand.nextInt(19);
+			randomPrimzahl3 = rand.nextInt(13);
 		}
 		//System.out.println(primzahlArray.get(randomPrimzahl1));
 		//System.out.println(primzahlArray.get(randomPrimzahl2));

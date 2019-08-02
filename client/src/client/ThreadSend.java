@@ -46,7 +46,7 @@ public class ThreadSend extends Thread {
 							type = 1;
 						}
 						if(type == 1) {
-							System.out.println(sentence);
+							//System.out.println(sentence);
 							message = new Message(username, to, sentence, type);
 							System.out.println("Deine Nachricht lautet: " + message.getOutputString());
 							}
