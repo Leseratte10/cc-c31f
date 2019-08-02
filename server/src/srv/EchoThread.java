@@ -50,6 +50,7 @@ public class EchoThread extends Thread {
         
         String line;
         String room;
+        String codedLine;
         Boolean login = true;
         String Benutzername;
         Message message;
@@ -72,7 +73,6 @@ public class EchoThread extends Thread {
         while (true) {
             try {
             	line = brinp.readLine();
-    			line = decode(line, ServerPrivateKey, ServerPublicKey2);
                 
                 if(login) {
 	                for (int i = 0; i < ThreadedEchoServer.benutzer.size();  i++) {
@@ -117,9 +117,11 @@ public class EchoThread extends Thread {
                 }
                 else {
                 	message = new Message(line);
+
+        			codedLine = decode(message.getOutputString(), ServerPrivateKey, ServerPublicKey2);
                 	System.out.print("<"+message.getTime()+"> ");
                     System.out.println(message.getUsername()+": "+message.getText()+" to "+message.getEmpfänger());
-                    ThreadedEchoServer.sendToRoom(message.getOutputString(), socket, message.getEmpfänger());
+                    ThreadedEchoServer.sendToRoom(codedLine , socket, message.getEmpfänger());
                 }
             } catch (IOException e) {
             	e.printStackTrace();
