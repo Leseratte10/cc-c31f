@@ -37,7 +37,7 @@ public class ThreadSend extends Thread {
 					System.out.print("Nachricht / Datei: ");
 					Message message = null;
 					sentence = inFromUser.readLine();
-					sentence = codierung(sentence,TCPClient.ServerPublicKey1, TCPClient.ServerPublicKey2);
+					
 					if(sentence != null) {
 						File file = new File(sentence);
 						if(file.exists()) {
@@ -55,7 +55,8 @@ public class ThreadSend extends Thread {
 							message = new Message(username, to, mes, type);
 							//System.out.println("Working 2.");
 						}
-						outToServer.writeBytes(message.getOutputString() + '\n');
+					sentence = codierung(message.getOutputString(),TCPClient.ServerPublicKey1, TCPClient.ServerPublicKey2);
+						outToServer.writeBytes(sentence + '\n');
 						outToServer.flush();
 					
 					
