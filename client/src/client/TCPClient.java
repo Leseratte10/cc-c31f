@@ -27,7 +27,7 @@ public class TCPClient {
 		 String[] raumliste;
 			java.util.Date now = new java.util.Date(System.currentTimeMillis());
 
-			 String eingabeForm = JOptionPane.showInputDialog("Wähle die Eingabeform: (f)enster oder (c)onsole!");
+			 String eingabeForm = JOptionPane.showInputDialog("Waehle die Eingabeform: (f)enster oder (c)onsole!");
 			 if (eingabeForm.equalsIgnoreCase("F") || eingabeForm.equalsIgnoreCase("FENSTER")) {
 				 eingabe = 1;
 			 }else if (eingabeForm.equalsIgnoreCase("C") || eingabeForm.equalsIgnoreCase("CONSOLE")){
@@ -73,7 +73,7 @@ public class TCPClient {
 		outToServer.writeBytes(Benutzername + '\n');
 		
 		raumname = brinp.readLine();
-	      System.out.print("In welchen der folgenden Räume möchtest du beitreten?");
+	      System.out.print("In welchen der folgenden Raeume moechtest du beitreten?");
 	      raumliste =  raumname.split(";");
 	      for (String name:raumliste) {
 	    	  System.out.print(name);
@@ -92,7 +92,7 @@ public class TCPClient {
 			 	
 			 	outToServer.writeBytes(Benutzername + '\n');
 				
-				JOptionPane.showMessageDialog(null, "In welchen der folgenden Räume möchtest du beitreten?");
+				JOptionPane.showMessageDialog(null, "In welchen der folgenden Raeume moechtest du beitreten?");
 			      
 			      raumname = brinp.readLine();
 			      raumliste = raumname.split(";");
@@ -107,7 +107,7 @@ public class TCPClient {
 			Benutzername = userName;
 			System.out.print("<"+sdf.format(now)+">"+" Dein Benutername ist "+ Benutzername +"!"+'\n');
 			raumname = brinp.readLine();
-			System.out.print("In welchen der folgenden Räume möchtest du beitreten?");
+			System.out.print("In welchen der folgenden Raeume moechtest du beitreten?");
 		      raumliste =  raumname.split(";");
 		      for (String name:raumliste) {
 		    	  System.out.print(name);

@@ -24,7 +24,6 @@ public class EchoThread extends Thread {
         InputStream inp = null;
         BufferedReader brinp = null;
         DataOutputStream out = null;
-        int zahl = 1;
         try {
             inp = socket.getInputStream();
             brinp = new BufferedReader(new InputStreamReader(inp));
