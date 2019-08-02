@@ -16,6 +16,26 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import javax.swing.JOptionPane;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JTextField;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 
 public class TCPClient {
 	static boolean running = true;
@@ -30,10 +50,129 @@ public class TCPClient {
 	public static  Integer publicKey2 = publicKeyBerechner(primzahlArray.get(0),primzahlArray.get(1),primzahlArray.get(2));
 	public static Integer ServerPublicKey1;
 	public static Integer ServerPublicKey2;
-	
+	public static JTextArea taTestTextArea;
 	
 	 public static void main(String argv[]) throws Exception {
+			JDialog Dialog1 = new JDialog();
+			JDialog Warnung = new JDialog();
+			Warnung.setTitle("Achtung");
+			Warnung.setSize(10, 50);
+			Dialog1.setTitle("ComputerCamp2019-ChatTool");
+			Dialog1.setSize(800,550);
+			Dialog1.setLocation(0,0);
+			
+			JDialog NutzerNameDialog = new JDialog();
+			
+			
+			Border bo =new LineBorder(Color.blue);
+			JMenuBar bar = new JMenuBar();
+			bar.setBorder(bo);
+			String text23 = "";
+			JLabel Label2 = new JLabel();
+			Label2.setBackground(Color.blue);
+			Label2.setLocation(700,400);
+			Label2.setAlignmentY(770);
+			Label2.addKeyListener(null);
+			String neuString = "DA";
+			int neuInt = 23;
+			int experimental = 0;
+			boolean ba1 = false;
+			
+			String Nachricht;
+			Nachricht = JOptionPane.showInputDialog("Nachricht?");
+			
+			
+			JMenu menu1 =new JMenu("Räume");
+			JMenu menu2 = new JMenu("Optionen");
+			JMenu menu3 = new JMenu("Hilfe");
+			JMenu menu4 = new JMenu("Profil");
+			JMenuItem m1item1 = new JMenuItem("Neuem Raum beitreten");
+			JMenuItem m1item3 = new JMenuItem("Raumliste anzeigen");
+			JMenuItem m2item1 = new JMenuItem("Schriftfarbe");
+			JMenuItem m2item2 = new JMenuItem("*Platzhalter*");
+			JMenuItem m3item1 = new JMenuItem("Hilfe");
+			JMenuItem m4item1 = new JMenuItem("Benutzername ändern");
+			JMenuItem m4item2 = new JMenuItem("Berechtigungen");
+			JMenuItem m1item4 = new JMenuItem(neuString+" "+neuInt);
+			
+			
+			JPanel contentPane = new JPanel();
+			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+				
+	        contentPane.setLayout(null);
 
+	        taTestTextArea = new JTextArea();
+	        taTestTextArea.setFont(new Font("Tahoma", Font.PLAIN, 13));
+	        taTestTextArea.setBounds(60,60,550, 550);
+	        taTestTextArea.setLineWrap(true);
+	        taTestTextArea.setWrapStyleWord(true);
+	        contentPane.add(taTestTextArea);
+			
+			
+/*	        JScrollPane scrollPane = new JScrollPane();
+	        scrollPane.setBounds(600,600,550, 550);
+	        scrollPane.setViewportView(taTestTextArea);
+	        contentPane.add(scrollPane);
+	        taTestTextArea.setCaretPosition(0);
+*/			
+	        Dialog1.add(contentPane);
+//	        Dialog1.add(scrollPane);
+	        Dialog1.add(taTestTextArea);
+			
+			
+			
+			
+			
+			menu1.add(m1item1);
+			menu1.add(m1item3);
+			menu1.add(m1item4);
+			menu2.add(m2item1);
+			menu2.add(m2item2);
+			menu3.add(m3item1);
+			menu4.add(m4item1);
+			menu4.add(m4item2);
+			bar.add(menu1);
+			bar.add(menu2);
+			bar.add(menu3);
+			bar.add(menu4);
+			Dialog1.setJMenuBar(bar);
+			Dialog1.add(Label2);
+			Action Tat = new EXPAction();
+			m1item1.addActionListener(Tat);
+			m1item3.addActionListener(Tat);
+			m1item4.addActionListener(Tat);
+			m2item1.addActionListener(Tat);
+			m2item2.addActionListener(Tat);
+			m3item1.addActionListener(Tat);
+			m4item1.addActionListener(Tat);
+			m4item2.addActionListener(Tat);
+			Dialog1.setLayout(new java.awt.BorderLayout());
+			JTextField eingabeFeld = new JTextField();
+			eingabeFeld.addKeyListener(new KeyListener() {
+				public void keyPressed(KeyEvent ke) {
+					int id = ke.getID();
+					String userEingabe;
+					int code = ke.getKeyCode();
+					if (id == KeyEvent.KEY_PRESSED && code == 10) {
+						System.out.println("Erfolg");
+					
+						userEingabe = eingabeFeld.getText();
+						
+						eingabeFeld.setText(null);
+						System.out.println(userEingabe);
+					}
+				}public void keyReleased(KeyEvent arg0) {
+				}
+				public void keyTyped(KeyEvent arg0) {
+				}
+			});
+			text23 = "";
+			eingabeFeld.setLocation(770,300);
+			eingabeFeld.setAlignmentY(770);
+			Dialog1.add(eingabeFeld, java.awt.BorderLayout.SOUTH);
+			Dialog1.setVisible(true);
+			
+			text23 = eingabeFeld.getText();
 		 int eingabe = 2;
 		 String Benutzername;
 		 String raumname;
@@ -54,7 +193,7 @@ public class TCPClient {
 		      BufferedReader brinp = null;
 
 			 try {
-				  clientSocket = new Socket("172.24.0.42", 1988);
+				  clientSocket = new Socket("172.24.0.15", 1988);
 				  outToServer = new DataOutputStream(clientSocket.getOutputStream());
 				  inp = clientSocket.getInputStream();
 		          brinp = new BufferedReader(new InputStreamReader(inp));

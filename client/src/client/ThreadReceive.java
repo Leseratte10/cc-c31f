@@ -47,6 +47,14 @@ public class ThreadReceive extends Thread {
                 	line =zahlfinder(line, BigPrivateKey, BigPublicKey2);
                 }
                 System.out.println("<"+sdf.format(now)+">" +" "+line);
+                
+                
+                
+    	        TCPClient.taTestTextArea.setText("<"+sdf.format(now)+">" +line);
+                
+                
+                
+                
             }
             catch(SocketException e) {
 				System.out.println('\n'+ANSI_RED+"Der Server wurde geschlossen oder die Connection wurde abgebrochen!");
