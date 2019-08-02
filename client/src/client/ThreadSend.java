@@ -9,10 +9,10 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
-
+import java.math.BigInteger;
 public class ThreadSend extends Thread {
 	protected Socket socket;
-	
+	static Integer privateKey =TCPClient.privateKey.intValue();
 	public ThreadSend(Socket socket) {
 		this.socket = socket;
 	}
@@ -33,14 +33,14 @@ public class ThreadSend extends Thread {
 				  int codeOn = codieren.nextInt();
 				  if (codeOn == 1){
 					  //ArrayList <Integer> primzahlArray = primzahlGenerator();
-					  ArrayList <Integer> primzahlArray = new ArrayList<Integer>();
-					  primzahlArray.add(89);
-					  primzahlArray.add(67);
-					  primzahlArray.add(23);
+					  /*ArrayList <Integer> primzahlArray = new ArrayList<Integer>();
+					  primzahlArray.add(privateKey);
+					  primzahlArray.add(TCPClient.ServerPublicKey1);
+					  primzahlArray.add(TCPClient.ServerPublicKey2);
 					  BigInteger privateKey = privatKeyBerechner(primzahlArray.get(0),primzahlArray.get(1),primzahlArray.get(2));
 					  Integer publicKey2 = publicKeyBerechner(primzahlArray.get(0),primzahlArray.get(1),primzahlArray.get(2));
-					  Integer publicKey1 = primzahlArray.get(2);
-					  sentence = codierung(sentence,publicKey1, publicKey2);
+					  Integer publicKey1 = primzahlArray.get(2);*/
+					  sentence = codierung(sentence,TCPClient.ServerPublicKey1, TCPClient.ServerPublicKey2);
 					  //codeText = rsa(vigenere(text),)
 				  }
 				  outToServer.writeBytes(sentence + '\n');
@@ -56,9 +56,9 @@ public class ThreadSend extends Thread {
 		}
 		
 				
-		
+	//--------------------------------------------------------------------------------------------------------
 	}
-	public static ArrayList primzahlGenerator() {
+	public static ArrayList<Integer> primzahlGenerator() {
 		ArrayList <Integer> primzahlArray = new ArrayList<Integer>();
 		ArrayList <Integer> ausgabenArray = new ArrayList<Integer>();
 		for (int i = 10; i <96; i++) {

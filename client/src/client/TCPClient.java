@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import javax.swing.*;
@@ -30,7 +31,9 @@ public class TCPClient {
 	public static ArrayList <Integer> primzahlArray = primzahlGenerator();
 	public static BigInteger privateKey = privatKeyBerechner(primzahlArray.get(0),primzahlArray.get(1),primzahlArray.get(2));
 	public static Integer publicKey1 = primzahlArray.get(2);
-	public static  Integer publicKey2 = publicKeyBerechner(primzahlArray.get(0),primzahlArray.get(1),primzahlArray.get(2));;
+	public static  Integer publicKey2 = publicKeyBerechner(primzahlArray.get(0),primzahlArray.get(1),primzahlArray.get(2));
+	public static Integer ServerPublicKey1;
+	public static Integer ServerPublicKey2;
 	
 	public static void main(String argv[]) throws Exception {
 		 boolean ent = true;
@@ -57,7 +60,7 @@ public class TCPClient {
 			  Socket clientSocket = null;
 			  
 			 try {
-				  clientSocket = new Socket("172.24.0.19", 1988);
+				  clientSocket = new Socket("172.24.0.14", 1980);
 				  outToServer = new DataOutputStream(clientSocket.getOutputStream());
 			 } 
 			 catch (SocketException e) {
@@ -76,8 +79,8 @@ public class TCPClient {
 			  }
 			  
 			  
-			  try {
-				  clientSocket = new Socket("172.24.0.19", 1988);
+			  /*try {
+				  clientSocket = new Socket("172.24.0.14", 1980);
 	
 			  }
 			  catch(ConnectException i) {
@@ -91,7 +94,7 @@ public class TCPClient {
 				  TimeUnit.SECONDS.sleep(30);
 				  System.exit(1);
 			  	 }
-			  }
+			  }*/
 			
 
 			  java.util.Date now = new java.util.Date(System.currentTimeMillis());
@@ -100,6 +103,12 @@ public class TCPClient {
 			  
 			  if(eingabe == 2) {
 				  System.out.println("Gib deinen Benutzernamen ein! (Windows-Benutzername wird als Default verwendet.)");
+				  
+				  InputStream inp2 = null;
+				  inp2 = clientSocket.getInputStream();
+			  	  BufferedReader brinp2 = new BufferedReader(new InputStreamReader(inp2));
+			  	  ServerPublicKey1 = Integer.parseInt(brinp2.readLine());
+			  	  ServerPublicKey2 = Integer.parseInt(brinp2.readLine());
 		
 				  Benutzername = inFromUser.readLine();
 				  if (Benutzername == "" || Benutzername == "	"|| Benutzername == " ") {
@@ -111,7 +120,15 @@ public class TCPClient {
 				  else {
 					  System.out.print("<"+sdf.format(now)+">"+" Dein Benutername ist "+ Benutzername +"!"+'\n'); //
 				  }
+				  Benutzername = ThreadSend.codierung(Benutzername, ServerPublicKey1, ServerPublicKey2);
 			  	  outToServer.writeBytes(Benutzername + '\n');
+			  	  System.out.println("send");
+			  	  outToServer.writeBytes(Integer.toString(publicKey1) + '\n');
+			  	  outToServer.writeBytes(Integer.toString(publicKey2) + '\n');
+			  	  
+			  	  
+			  	
+			  	  
 			  }
 			  else {
 					Benutzername = JOptionPane.showInputDialog("Gib deinen Benutzernamen ein! (Windows-Benutzername wird als Default verwendet.)");
@@ -165,14 +182,13 @@ public class TCPClient {
 			          return;
 			      }
 			      String raumname = brinp.readLine();
-			      ArrayList<String> raumliste = (ArrayList<String>) Arrays.asList(raumname.split(";"));
+			      List<String> raumliste = Arrays.asList(raumname.split(";"));
 			      for (String name:raumliste) {
 			    	  System.out.print(name);
 			      }
 			      raumname = inFromUser.readLine();
 			      outToServer.writeBytes(raumname);
-			      outToServer.writeInt(publicKey1);
-			      outToServer.writeInt(publicKey2);
+			      
 				  
 				  new ThreadSend(clientSocket).start();
 				  new ThreadReceive(clientSocket).start();
@@ -181,7 +197,7 @@ public class TCPClient {
 		}
 		 
 	}
-	public static ArrayList primzahlGenerator() {
+	public static ArrayList<Integer> primzahlGenerator() {
 		ArrayList <Integer> primzahlArray = new ArrayList<Integer>();
 		ArrayList <Integer> ausgabenArray = new ArrayList<Integer>();
 		for (int i = 10; i <96; i++) {
@@ -197,14 +213,14 @@ public class TCPClient {
 		}
 		System.out.println(primzahlArray);
 		Random rand = new Random();
-		int randomPrimzahl1 = rand.nextInt(21);
-		int randomPrimzahl2 = rand.nextInt(21);
+		int randomPrimzahl1 = rand.nextInt(20);
+		int randomPrimzahl2 = rand.nextInt(20);
 		while (randomPrimzahl1 == randomPrimzahl2) {
-			randomPrimzahl2 = rand.nextInt(21);
+			randomPrimzahl2 = rand.nextInt(20);
 		}
-		int randomPrimzahl3 = rand.nextInt(21);
+		int randomPrimzahl3 = rand.nextInt(20);
 		while ((randomPrimzahl3 == randomPrimzahl2) || (randomPrimzahl3 == randomPrimzahl1)) {
-			randomPrimzahl3 = rand.nextInt(21);
+			randomPrimzahl3 = rand.nextInt(20);
 		}
 		/*System.out.println(primzahlArray.get(randomPrimzahl1));
 		System.out.println(primzahlArray.get(randomPrimzahl2));

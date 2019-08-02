@@ -45,7 +45,7 @@ public class ThreadReceive extends Thread {
                 Scanner sDecode = new Scanner(System.in);
                 int onDecode = sDecode.nextInt();
                 if (onDecode == 1) {
-                line =zahlfinder(line, BigPrivateKey, BigPublicKey2);
+                	line =zahlfinder(line, BigPrivateKey, BigPublicKey2);
                 }
                 System.out.println("<"+sdf.format(now)+">" +" "+line);
             }
