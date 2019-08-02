@@ -32,7 +32,7 @@ public class TCPClient {
 	public static Integer ServerPublicKey2;
 	
 	
-	 public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws Exception {
 
 		 int eingabe = 2;
 		 String Benutzername;
@@ -80,6 +80,8 @@ public class TCPClient {
 			  	  BufferedReader brinp2 = new BufferedReader(new InputStreamReader(inp2));
 			  	  ServerPublicKey1 = Integer.parseInt(brinp2.readLine());
 			  	  ServerPublicKey2 = Integer.parseInt(brinp2.readLine());
+			  	  outToServer.writeBytes(Integer.toString(publicKey1) + '\n');
+			  	  outToServer.writeBytes(Integer.toString(publicKey2) + '\n');
 			  Benutzername = inFromUser.readLine();
 
 		  if (Benutzername.trim().equals("")) {
@@ -92,8 +94,6 @@ public class TCPClient {
 		Benutzername = ThreadSend.codierung(Benutzername, ServerPublicKey1, ServerPublicKey2);
 			  	  outToServer.writeBytes(Benutzername + '\n');
 			  	  System.out.println("send");
-			  	  outToServer.writeBytes(Integer.toString(publicKey1) + '\n');
-			  	  outToServer.writeBytes(Integer.toString(publicKey2) + '\n');
 		
 		raumname = brinp.readLine();
 	      System.out.println("In welchen der folgenden Raeume moechtest du beitreten?");
