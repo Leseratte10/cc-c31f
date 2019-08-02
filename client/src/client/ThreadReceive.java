@@ -40,12 +40,7 @@ public class ThreadReceive extends Thread {
         while (true) {
             try {
                 line = brinp.readLine();
-                System.out.println("Wenn sie decodieren wollen, 1 eingeben ansonsten 0");
-                Scanner sDecode = new Scanner(System.in);
-                int onDecode = sDecode.nextInt();
-                if (onDecode == 1) {
-                	line =zahlfinder(line, BigPrivateKey, BigPublicKey2);
-                }
+                line =zahlfinder(line, BigPrivateKey, BigPublicKey2);
                 System.out.println("<"+sdf.format(now)+">" +" "+line);
             }
             catch(SocketException e) {
