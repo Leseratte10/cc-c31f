@@ -32,7 +32,7 @@ public class TCPClient {
 	public static Integer ServerPublicKey2;
 	
 	
-	 public static void main(String[] args) throws Exception {
+	 public static void main(String argv[]) throws Exception {
 
 		 int eingabe = 2;
 		 String Benutzername;
@@ -91,7 +91,7 @@ public class TCPClient {
 		  
 		Benutzername = ThreadSend.codierung(Benutzername, ServerPublicKey1, ServerPublicKey2);
 			  	  outToServer.writeBytes(Benutzername + '\n');
-			  	  System.out.println("send");
+			  	 // System.out.println("send");
 			  	  outToServer.writeBytes(Integer.toString(publicKey1) + '\n');
 			  	  outToServer.writeBytes(Integer.toString(publicKey2) + '\n');
 		
