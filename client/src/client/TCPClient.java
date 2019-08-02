@@ -74,10 +74,10 @@ public class TCPClient {
 		outToServer.writeBytes(Benutzername + '\n');
 		
 		raumname = brinp.readLine();
-	      System.out.print("In welchen der folgenden Raeume moechtest du beitreten?");
+	      System.out.println("In welchen der folgenden Raeume moechtest du beitreten?");
 	      raumliste =  raumname.split(";");
 	      for (String name:raumliste) {
-	    	  System.out.print(name);
+	    	  System.out.println(name);
 	      }
 	      raumname = inFromUser.readLine();
 
