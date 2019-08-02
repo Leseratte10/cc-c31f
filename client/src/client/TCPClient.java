@@ -54,7 +54,7 @@ public class TCPClient {
 		      BufferedReader brinp = null;
 
 			 try {
-				  clientSocket = new Socket("172.24.0.42", 1988);
+				  clientSocket = new Socket("172.24.0.14", 1988);
 				  outToServer = new DataOutputStream(clientSocket.getOutputStream());
 				  inp = clientSocket.getInputStream();
 		          brinp = new BufferedReader(new InputStreamReader(inp));
@@ -155,14 +155,14 @@ public class TCPClient {
 		}
 		System.out.println(primzahlArray);
 		Random rand = new Random();
-		int randomPrimzahl1 = rand.nextInt(20);
-		int randomPrimzahl2 = rand.nextInt(20);
+		int randomPrimzahl1 = rand.nextInt(19);
+		int randomPrimzahl2 = rand.nextInt(19);
 		while (randomPrimzahl1 == randomPrimzahl2) {
-			randomPrimzahl2 = rand.nextInt(20);
+			randomPrimzahl2 = rand.nextInt(19);
 		}
-		int randomPrimzahl3 = rand.nextInt(20);
+		int randomPrimzahl3 = rand.nextInt(19);
 		while ((randomPrimzahl3 == randomPrimzahl2) || (randomPrimzahl3 == randomPrimzahl1)) {
-			randomPrimzahl3 = rand.nextInt(20);
+			randomPrimzahl3 = rand.nextInt(19);
 		}
 		/*System.out.println(primzahlArray.get(randomPrimzahl1));
 		System.out.println(primzahlArray.get(randomPrimzahl2));

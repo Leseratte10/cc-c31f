@@ -86,10 +86,21 @@ public class ThreadedEchoServer {
     
     public static void sendToAll(String line, Socket selfSocket) throws IOException {
         DataOutputStream out = null;
+        String codedLine;
     	for (Socket socket:sockets) {
     		if ( socket != selfSocket) {
+    			Integer ClientPublicKey1 = 0;
+				Integer ClientPublicKey2 = 0 ;
+    			for (SocketKeys sk : userList) {
+    				if (sk.socket == socket) {
+    					ClientPublicKey1 = sk.key1;
+    					ClientPublicKey2 = sk.key2;
+    				}
+    			}
+    			codedLine = codierung(line, ClientPublicKey1, ClientPublicKey2);
     			out = new DataOutputStream(socket.getOutputStream());
-    			out.writeBytes(line+'\n');
+    			
+    			out.writeBytes(codedLine+'\n');
     		}
     	}
     }
@@ -100,8 +111,14 @@ public class ThreadedEchoServer {
     	int ind = findRoom(room);
     	for (Socket socket:getRooms().get(ind).getSockets()) {
     		if ( socket != selfSocket) {
-    			Integer ClientPublicKey1 = 1;
-    			Integer ClientPublicKey2 = 2;
+    			Integer ClientPublicKey1 = 0;
+				Integer ClientPublicKey2 = 0 ;
+    			for (SocketKeys sk : userList) {
+    				if (sk.socket == socket) {
+    					 ClientPublicKey1 = sk.key1;
+    					 ClientPublicKey2 = sk.key2;
+    				}
+    			}
     			codedLine = codierung(line, ClientPublicKey1, ClientPublicKey2);
     			out = new DataOutputStream(socket.getOutputStream());
     			
@@ -218,14 +235,14 @@ public class ThreadedEchoServer {
 		}
 		System.out.println(primzahlArray);
 		Random rand = new Random();
-		int randomPrimzahl1 = rand.nextInt(20);
-		int randomPrimzahl2 = rand.nextInt(20);
+		int randomPrimzahl1 = rand.nextInt(19);
+		int randomPrimzahl2 = rand.nextInt(19);
 		while (randomPrimzahl1 == randomPrimzahl2) {
-			randomPrimzahl2 = rand.nextInt(20);
+			randomPrimzahl2 = rand.nextInt(19);
 		}
-		int randomPrimzahl3 = rand.nextInt(20);
+		int randomPrimzahl3 = rand.nextInt(19);
 		while ((randomPrimzahl3 == randomPrimzahl2) || (randomPrimzahl3 == randomPrimzahl1)) {
-			randomPrimzahl3 = rand.nextInt(20);
+			randomPrimzahl3 = rand.nextInt(19);
 		}
 		//System.out.println(primzahlArray.get(randomPrimzahl1));
 		//System.out.println(primzahlArray.get(randomPrimzahl2));
