@@ -32,7 +32,7 @@ public class TCPClient {
 	public static Integer ServerPublicKey2;
 	
 	
-	 public static void main(String argv[]) throws Exception {
+	 public static void main(String[] args) throws Exception {
 
 		 int eingabe = 2;
 		 String Benutzername;
