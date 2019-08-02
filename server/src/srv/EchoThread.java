@@ -43,19 +43,21 @@ public class EchoThread extends Thread {
                 
                 line = brinp.readLine();
                 
-                for (int i = 0; i < ThreadedEchoServer.benutzer.size();  i++) {
-                	if (line.equals(ThreadedEchoServer.benutzer.get(i))) {
-                		line = brinp.readLine();
-                		if(line.equals(ThreadedEchoServer.passwd.get(i))) {
-                			login = false;
-                		}else {
-                			
-                		}
-                		
-                	}
-                	else {
-                		
-                	}
+                if(login) {
+	                for (int i = 0; i < ThreadedEchoServer.benutzer.size();  i++) {
+	                	if (line.equals(ThreadedEchoServer.benutzer.get(i))) {
+	                		line = brinp.readLine();
+	                		if(line.equals(ThreadedEchoServer.passwd.get(i))) {
+	                			login = false;
+	                		}else {
+	                			
+	                		}
+	                		
+	                	}
+	                	else {
+	                		
+	                	}
+	                }
                 }
                 
                 LocalDateTime now = LocalDateTime.now();
