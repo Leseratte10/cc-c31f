@@ -41,7 +41,7 @@ public class TCPClient {
 		      BufferedReader brinp = null;
 
 			 try {
-				  clientSocket = new Socket("172.24.0.16", 1988);
+				  clientSocket = new Socket("172.24.0.42", 1988);
 				  outToServer = new DataOutputStream(clientSocket.getOutputStream());
 				  inp = clientSocket.getInputStream();
 		          brinp = new BufferedReader(new InputStreamReader(inp));
@@ -84,7 +84,7 @@ public class TCPClient {
 		} 
 		else if (eingabe == 1){
 			Benutzername = JOptionPane.showInputDialog("Gib deinen Benutzernamen ein! (Windows-Benutzername wird als Default verwendet.)");
-				if ((Benutzername.equals(""))||(Benutzername.equals("	"))|| (Benutzername.equals(" "))) {
+			if (Benutzername.trim().equals("")) {
 					String userName = System.getProperty("user.name");	
 					Benutzername = userName;
 				}

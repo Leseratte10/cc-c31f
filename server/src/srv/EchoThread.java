@@ -84,17 +84,18 @@ public class EchoThread extends Thread {
                 else {
                 	message = new Message(line);
                 	System.out.print("<"+message.getTime()+"> ");
-                    System.out.println(message.getText());
+                    System.out.println(message.getUsername()+": "+message.getText()+" to "+message.getEmpfänger());
                     ThreadedEchoServer.sendToRoom(message.getOutputString(), socket, message.getEmpfänger());
                 }
             } catch (IOException e) {
             	LocalDateTime now = LocalDateTime.now();
             	int ind = ThreadedEchoServer.getSockets().indexOf(socket);
             	try {
-            		System.out.println("<"+dtf.format(now)+"> "+ThreadedEchoServer.getUser().get(ind)+" just left");
+            		String User = ThreadedEchoServer.getUser().get(ind);
+            		System.out.println("<"+dtf.format(now)+"> "+User+" just left");
 					ThreadedEchoServer.removeUser(ind);
 					ThreadedEchoServer.removeSocket(socket);
-					ThreadedEchoServer.sendToAll("<"+dft.format(now)+"> "+ThreadedEchoServer.getUser().get(ind)+" just left", socket);
+					ThreadedEchoServer.sendToAll("<"+dft.format(now)+"> "+User+" just left", socket);
 					this.stop();
 				} catch (IOException e1) {
 					//e1.printStackTrace();
